@@ -1,4 +1,4 @@
-package view;
+package src.view;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -6,9 +6,9 @@ import java.awt.GridLayout;
 
 import javax.swing.JPanel;
 
-import model.Cell;
-import model.PathCell;
-import model.TowerCell;
+import src.model.Cell;
+import src.model.PathCell;
+import src.model.TowerCell;
 
 public class GridView extends JPanel {
     private final int gridWidth, gridHeight;

@@ -1,14 +1,14 @@
-package controller;
+package src.controller;
 
 import java.io.File;
 
-import util.Difficulty;
-import view.MainFrame;
-import view.MarathonMenu;
-import view.StartMenu;
+import src.util.Difficulty;
+import src.view.MainFrame;
+import src.view.MarathonMenu;
+import src.view.StartMenu;
 
 public class MainControl {
-    public final File mapDir = new File("resources/maps");
+    public final File mapDir = new File("src/resources/maps");
     private final MainFrame mainFrame;
 
     public MainControl() {

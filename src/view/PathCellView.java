@@ -1,12 +1,12 @@
-package view;
+package src.view;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
-import model.PathCell;
-import util.Palette;
+import src.model.PathCell;
+import src.util.Palette;
 
 public class PathCellView extends JPanel {
     private final PathCell cell;

@@ -1,9 +1,9 @@
-package view;
+package src.view;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JRadioButton;
 
-import util.Difficulty;
+import src.util.Difficulty;
 
 public class DifficultyRadioButton extends JRadioButton {
 

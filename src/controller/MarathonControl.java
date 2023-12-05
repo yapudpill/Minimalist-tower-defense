@@ -1,10 +1,10 @@
-package controller;
+package src.controller;
 
 import java.io.File;
 
-import model.MarathonModel;
-import util.Difficulty;
-import view.MarathonView;
+import src.model.MarathonModel;
+import src.util.Difficulty;
+import src.view.MarathonView;
 
 public class MarathonControl {
     private final MarathonModel model;

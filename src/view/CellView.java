@@ -1,8 +1,8 @@
-package view;
+package src.view;
 
 import javax.swing.JPanel;
 
-import util.Palette;
+import src.util.Palette;
 
 public class CellView extends JPanel {
 

@@ -1,10 +1,10 @@
-package view;
+package src.view;
 
 import javax.swing.JPanel;
 
-import controller.MainControl;
-import controller.MarathonControl;
-import model.MarathonModel;
+import src.controller.MainControl;
+import src.controller.MarathonControl;
+import src.model.MarathonModel;
 
 public class MarathonView extends JPanel {
 

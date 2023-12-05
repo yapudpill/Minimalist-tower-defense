@@ -1,4 +1,4 @@
-package view;
+package src.view;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -7,7 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import controller.MainControl;
+import src.controller.MainControl;
 
 public class StartMenu extends JPanel {
 

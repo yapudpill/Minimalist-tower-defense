@@ -1,8 +1,8 @@
-package view;
+package src.view;
 
-import static util.Difficulty.EASY;
-import static util.Difficulty.HARD;
-import static util.Difficulty.MEDIUM;
+import static src.util.Difficulty.EASY;
+import static src.util.Difficulty.HARD;
+import static src.util.Difficulty.MEDIUM;
 
 import java.awt.Component;
 import java.awt.GridBagConstraints;
@@ -18,8 +18,8 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-import controller.MainControl;
-import view.DifficultyRadioButton.DifficultyButtonModel;
+import src.controller.MainControl;
+import src.view.DifficultyRadioButton.DifficultyButtonModel;
 
 public class MarathonMenu extends JPanel {
     private final MainControl controller;

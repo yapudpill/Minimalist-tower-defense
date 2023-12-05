@@ -1,12 +1,12 @@
-package model;
+package src.model;
 
-import static util.Direction.*;
+import static src.util.Direction.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-import util.Difficulty;
+import src.util.Difficulty;
 
 public class MarathonModel {
     public int startX, startY; // maybe should be private

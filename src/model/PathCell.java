@@ -1,6 +1,6 @@
-package model;
+package src.model;
 
-import util.Direction;
+import src.util.Direction;
 
 public class PathCell extends Cell {
     public final Direction direction;
