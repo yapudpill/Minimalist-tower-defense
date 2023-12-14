@@ -1,14 +1,11 @@
 package src.controller;
 
-import java.io.File;
-
 import src.util.Difficulty;
 import src.view.MainFrame;
 import src.view.MarathonMenu;
 import src.view.StartMenu;
 
 public class MainControl {
-    public final File mapDir = new File("src/resources/maps");
     private final MainFrame mainFrame;
 
     public MainControl() {
@@ -24,8 +21,8 @@ public class MainControl {
         mainFrame.loadMenu(new MarathonMenu(this));
     }
 
-    public void loadMarathonGame(Difficulty diff, File map) {
-        MarathonControl gameControl = new MarathonControl(this, map, diff);
+    public void loadMarathonGame(Difficulty diff, String mapName) {
+        MarathonControl gameControl = new MarathonControl(this, diff, mapName);
         mainFrame.loadMenu(gameControl.panel);
     }
 

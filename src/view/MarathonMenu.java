@@ -4,17 +4,17 @@ import static src.util.Difficulty.EASY;
 import static src.util.Difficulty.HARD;
 import static src.util.Difficulty.MEDIUM;
 
-import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
-import java.io.File;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
@@ -24,7 +24,7 @@ import src.view.DifficultyRadioButton.DifficultyButtonModel;
 public class MarathonMenu extends JPanel {
     private final MainControl controller;
     private final ButtonGroup difficultyButtons;
-    private final JComboBox<File> mapBox;
+    private final JComboBox<String> mapBox;
     private final JButton start;
 
     public MarathonMenu(MainControl control) {
@@ -72,8 +72,9 @@ public class MarathonMenu extends JPanel {
 
         constraints.gridy = 2;
         constraints.gridwidth = 3;
-        mapBox = new JComboBox<>(control.mapDir.listFiles());
-        mapBox.setRenderer(this::renderMapBoxElement);
+        InputStream in = MarathonMenu.class.getResourceAsStream("/src/resources/maps/index");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+        mapBox = new JComboBox<>(reader.lines().toArray(String[]::new));
         add(mapBox, constraints);
         constraints.gridwidth = 1;
 
@@ -105,13 +106,9 @@ public class MarathonMenu extends JPanel {
         start.setEnabled(true);
     }
 
-    private Component renderMapBoxElement(JList <? extends File> list, File file, int index, boolean selected, boolean focus) {
-        return new JLabel(file.getName());
-    }
-
     private void askLoadMarathonGame(ActionEvent e) {
         controller.loadMarathonGame(
             ((DifficultyButtonModel) difficultyButtons.getSelection()).difficulty,
-            (File) mapBox.getSelectedItem());
+            (String) mapBox.getSelectedItem());
     }
 }
