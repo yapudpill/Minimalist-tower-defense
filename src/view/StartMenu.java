@@ -9,8 +9,18 @@ import javax.swing.JPanel;
 
 import src.controller.MainControl;
 
+/**
+ * The main menu of this project. Here the user can chose to go to any other
+ * menu, for example the game launcher or the score panel.
+ */
 public class StartMenu extends JPanel {
 
+    /**
+     * Creates a new <code>StartMenu</code> that sends inputs to the specified
+     * controller.
+     *
+     * @param controller - The controller in charge of switching menus
+     */
     public StartMenu(MainControl controller) {
         setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();

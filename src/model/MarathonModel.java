@@ -10,10 +10,20 @@ import java.util.Arrays;
 
 import src.util.Difficulty;
 
+/**
+ * The model of a marathon game. It contains all the information about a game
+ * played in marathon mode.
+ */
 public class MarathonModel {
     public int startX, startY; // maybe should be private
     public final Cell[][] grid;
 
+    /**
+     * Creates a new marathon game model with the specified map and difficulty.
+     *
+     * @param diff - The difficulty of the game being loaded
+     * @param map  - The name of the file in which the map to load is saved
+     */
     public MarathonModel(Difficulty diff, String mapName) {
         Cell[][] g = null;
         try {
@@ -25,6 +35,12 @@ public class MarathonModel {
         grid = g;
     }
 
+    /**
+     * Converts a map file into an 2D array of <code>Cell</code>.
+     *
+     * @param map - The name of the file in which the map to load is saved
+     * @return A 2D array of <code>Cell</code> objects representing the map.
+     */
     private Cell[][] readMap(String mapName) throws IOException {
         InputStream in = MarathonModel.class.getResourceAsStream("/src/resources/maps/" + mapName);
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));

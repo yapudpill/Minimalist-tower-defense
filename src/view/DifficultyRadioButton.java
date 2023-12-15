@@ -5,8 +5,19 @@ import javax.swing.JRadioButton;
 
 import src.util.Difficulty;
 
+/**
+ * A modified type of <code>JRadioButton</code> that encapsulates a difficulty
+ * information.
+ */
 public class DifficultyRadioButton extends JRadioButton {
 
+    /**
+     * Creates a new <code>DifficultyRadioButton</code> in the specified group
+     * that encapsulates the specified difficulty.
+     *
+     * @param diff  - The difficulty that this button represents
+     * @param group - The group in which this button will be placed
+     */
     public DifficultyRadioButton(Difficulty diff, ButtonGroup group) {
         setModel(new DifficultyButtonModel(diff, group));
         switch (diff) {
@@ -16,9 +27,20 @@ public class DifficultyRadioButton extends JRadioButton {
         }
     }
 
+    /**
+     * A modified type of <code>ToggleButtonModel</code> that encapsulates a
+     * difficulty information.
+     */
     public static class DifficultyButtonModel extends ToggleButtonModel {
         public final Difficulty difficulty;
 
+        /**
+         * Creates a new <code>DifficultyButtonModel</code> in the specified group
+         * that encapsulates the specified difficulty
+         *
+         * @param diff  - The difficulty that this button represents
+         * @param group - The group in which this button will be placed
+         */
         public DifficultyButtonModel(Difficulty diff, ButtonGroup group) {
             setGroup(group);
             difficulty = diff;

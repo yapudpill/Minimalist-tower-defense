@@ -10,9 +10,18 @@ import src.model.Cell;
 import src.model.PathCell;
 import src.model.TowerCell;
 
+/**
+ * A <code>JPanel</code> that displays the game grid, where the tower are placed
+ * and enemies are shown.
+ */
 public class GridView extends JPanel {
     private final int gridWidth, gridHeight;
 
+    /**
+     * Creates a new <code>GridView</code> that displays the specified cell grid.
+     *
+     * @param grid - The cell grid to display
+     */
     public GridView(Cell[][] grid) {
         gridHeight = grid.length;
         gridWidth = grid[0].length;

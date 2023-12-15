@@ -6,8 +6,16 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
+/**
+ * The main <code>JFrame</code> object of this project, where everything is
+ * displayed.
+ */
 public class MainFrame extends JFrame {
 
+    /**
+     * Creates a new <code>MainFrame</code>, with size to 900x900 that uses the
+     * default look and feel. Then make it visible.
+     */
     public MainFrame() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -19,6 +27,11 @@ public class MainFrame extends JFrame {
         EventQueue.invokeLater(() -> setVisible(true));
     }
 
+    /**
+     * Swap the <code>contentPane</code> of this frame to the specified menu.
+     *
+     * @param menu - The menu that will be displayed
+     */
     public void loadMenu(JPanel menu) {
         EventQueue.invokeLater(() -> {
             setContentPane(menu);
