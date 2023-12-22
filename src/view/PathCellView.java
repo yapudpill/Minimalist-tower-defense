@@ -48,6 +48,7 @@ public class PathCellView extends JPanel {
             case UP : g2D.rotate(3*Math.PI/2, w/2, w/2); break;
         }
 
+
         drawArrow(g2D);
     }
 

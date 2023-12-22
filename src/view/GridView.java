@@ -1,10 +1,8 @@
 package src.view;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.awt.*;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import src.model.Cell;
 import src.model.PathCell;
@@ -32,8 +30,13 @@ public class GridView extends JPanel {
                 if (cell instanceof TowerCell) {
                     add(new TowerCellView((TowerCell) cell));
                 } else if (cell instanceof PathCell) {
-                    add(new PathCellView((PathCell) cell));
-                } else {
+                    JPanel panel = new PathCellView((PathCell)cell);
+                    if (((PathCell) cell).spawn){
+                        panel.add(new EnemyView("test_red",0,0));
+                    }
+                    add(panel);
+                }
+                else{
                     add(new CellView());
                 }
             }

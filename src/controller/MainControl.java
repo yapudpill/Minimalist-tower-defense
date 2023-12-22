@@ -1,6 +1,7 @@
 package src.controller;
 
 import src.util.Difficulty;
+import src.view.GridView;
 import src.view.MainFrame;
 import src.view.MarathonMenu;
 import src.view.StartMenu;
