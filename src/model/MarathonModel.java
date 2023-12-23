@@ -56,10 +56,10 @@ public class MarathonModel {
             for (int j = 0; j < l.length; j++) {
                 switch (l[j]) {
                     case ' ': grid[i][j] = new Cell(); break;
-                    case 'H': grid[i][i] = new PathCell(UP,true);break;
-                    case 'G': grid[i][i] = new PathCell(LEFT,true);break;
-                    case 'B': grid[i][i] = new PathCell(DOWN,true);break;
-                    case 'D': grid[i][i] = new PathCell(RIGHT,true);break;
+                    case 'H': grid[i][j] = new PathCell(UP,true);break;
+                    case 'G': grid[i][j] = new PathCell(LEFT,true);break;
+                    case 'B': grid[i][j] = new PathCell(DOWN,true);break;
+                    case 'D': grid[i][j] = new PathCell(RIGHT,true);break;
                     case '^': grid[i][j] = new PathCell(UP,false); break;
                     case '<': grid[i][j] = new PathCell(LEFT,false); break;
                     case 'v': grid[i][j] = new PathCell(DOWN,false); break;

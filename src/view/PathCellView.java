@@ -65,4 +65,8 @@ public class PathCellView extends JPanel {
         g2D.drawLine(7*w/8, 3*w/8, w, w/2); // Top line
         g2D.drawLine(7*w/8, 5*w/8, w, w/2); // Bottom line
     }
+
+    public PathCell getCell(){
+        return cell;
+    }
 }

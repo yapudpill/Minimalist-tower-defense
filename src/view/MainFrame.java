@@ -24,6 +24,7 @@ public class MainFrame extends JFrame {
         setSize(900,900);
         setTitle("Tower Defence");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(null);
         EventQueue.invokeLater(() -> setVisible(true));
     }
 

@@ -12,7 +12,8 @@ public class PathCell extends Cell {
      * The direction pointing to the next path cell.
      */
     public final Direction direction;
-    public boolean spawn;
+    public boolean hasEnemy;
+
 
     /**
      * Creates a new <code>PathCell</code> with the specified direction.
@@ -21,7 +22,8 @@ public class PathCell extends Cell {
      */
     public PathCell(Direction direction, boolean spawn) {
         this.direction = direction;
-        this.spawn = spawn;
+        this.hasEnemy = spawn;
     }
+
 
 }
