@@ -6,24 +6,22 @@ public class Enemy {
     public ImageIcon image;
     public String name;
     public int lifePoint;
-    public boolean isOnBoard;
     public int speed;
 
     public int x;
     public int y;
-    public int initialX;
-    public int initialY;
+    public int xOnPanel;
+    public int yOnPanel;
 
     public PathCell cell;
 
     public Enemy(String name, int lifePoint, int speed){
         this.lifePoint = lifePoint;
         this.name = name;
-        isOnBoard = false;
         this.speed = speed;
         image = new ImageIcon("src/resources/ennemies/" + name + ".png");
-        initialX = 0;
-        initialY = 0;
+        xOnPanel = 0;
+        yOnPanel = 0;
     }
 
 
