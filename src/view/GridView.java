@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 import javax.swing.*;
@@ -122,31 +123,34 @@ public class GridView extends JPanel implements ActionListener {
     }
     @Override
     public void actionPerformed (ActionEvent e){
+        Iterator<Enemy> iterator = enemies.iterator();
+        while (iterator.hasNext()) {
+            Enemy enemy = iterator.next();
+            if (enemy.lifePoint == 0 || enemy.cell.direction.equals(Direction.END_OF_PATH)) {
+                iterator.remove(); // Utiliser remove() de l'itérateur pour supprimer l'élément en toute sécurité
+            }
+        }
         for (Enemy enemy: enemies){
-            if (enemy.lifePoint == 0 || enemy.cell.direction.equals(Direction.END_OF_PATH)){
-                enemies.remove(enemy);
-            }else{
-                if (hasChangedCell(enemy)){
-                    PathCellView pathCellView = enemy.cell.cellView.nextCellView;
-                    enemy.cell = enemy.cell.nextCell;
-                    enemy.cell.cellView = pathCellView;
-                    enemy.initialX = 0;
-                    enemy.initialY = 0;
-                }
+            if (hasChangedCell(enemy)){
+                PathCellView pathCellView = enemy.cell.cellView.nextCellView;
+                enemy.cell = enemy.cell.nextCell;
+                enemy.cell.cellView = pathCellView;
+                enemy.initialX = 0;
+                enemy.initialY = 0;
+            }
 
-                if (enemy.cell.direction.equals(Direction.UP)){
-                    enemy.y-=enemy.speed;
-                    enemy.initialY-=1;
-                } else if (enemy.cell.direction.equals(Direction.DOWN)) {
-                    enemy.y += enemy.speed;
-                    enemy.initialY += 1;
-                } else if (enemy.cell.direction.equals(Direction.RIGHT)){
-                    enemy.x+=enemy.speed;
-                    enemy.initialX += 1;
-                }else if (enemy.cell.direction.equals(Direction.LEFT)){
-                    enemy.x -=enemy.speed;
-                    enemy.initialX -= 1;
-                }
+            if (enemy.cell.direction.equals(Direction.UP)){
+                enemy.y-=enemy.speed;
+                enemy.initialY-=1;
+            } else if (enemy.cell.direction.equals(Direction.DOWN)) {
+                enemy.y += enemy.speed;
+                enemy.initialY += 1;
+            } else if (enemy.cell.direction.equals(Direction.RIGHT)){
+                enemy.x+=enemy.speed;
+                enemy.initialX += 1;
+            }else if (enemy.cell.direction.equals(Direction.LEFT)){
+                enemy.x -=enemy.speed;
+                enemy.initialX -= 1;
             }
         }
         if (spawnDelay >= 5000){
