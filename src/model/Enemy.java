@@ -5,16 +5,16 @@ import javax.swing.*;
 public class Enemy {
     public ImageIcon image;
     public String name;
-    public double lifePoint;
+    public int lifePoint;
     public boolean isOnBoard;
-    public double speed;
+    public int speed;
 
     public int x;
     public int y;
 
     public PathCell cell;
 
-    public Enemy(String name, double lifePoint, double speed){
+    public Enemy(String name, int lifePoint, int speed){
         this.lifePoint = lifePoint;
         this.name = name;
         isOnBoard = false;

@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.*;
 
@@ -25,6 +26,10 @@ public class GridView extends JPanel implements ActionListener {
     Timer timer;
 
     Image image;
+
+    int delay = 0;
+
+    public String [] debut = new String[]{"test_green","test_red"};
 
     /**
      * Creates a new <code>GridView</code> that displays the specified cell grid.
@@ -52,10 +57,33 @@ public class GridView extends JPanel implements ActionListener {
                 }
             }
         }
-        enemy = new Enemy("test_green",0,0);
-        image = enemy.image.getImage();
         timer = new Timer(10,this);
         timer.start();
+        enemy = generateEnemy(delay);
+        image = enemy.image.getImage();
+    }
+
+    public Enemy generateEnemy (int temps){
+        Enemy e;
+        if (temps <= 120){
+            int f = new Random().nextInt(debut.length-1);
+            e = new Enemy(debut[f],100,1);
+            int g = new Random().nextInt(panels.size());
+            e.x = panels.get(g).getX();
+            e.y = panels.get(g).getY();
+            e.cell = panels.get(g).getCell();
+            return e;
+        }
+        else{
+            int f = new Random().nextInt(debut.length-1);
+            e =  new Enemy(debut[f],200 + temps/20,1+((temps+1)/temps));
+            int g = new Random().nextInt(panels.size()-1);
+            e.x = panels.get(g).getX();
+            e.y = panels.get(g).getY();
+            e.cell = panels.get(g).getCell();
+            return e;
+        }
+
     }
 
     @Override
@@ -73,16 +101,20 @@ public class GridView extends JPanel implements ActionListener {
     public void paint(Graphics g){
         super.paint(g);
         Graphics2D g2d = (Graphics2D) g;
-        for (JPanel jPanel : panels){
-            enemy.x = jPanel.getX();
-            enemy.y = jPanel.getY();
-            g2d.drawImage(image,enemy.x,enemy.y,null);
-        }
-
+        g2d.drawImage(image,enemy.x,enemy.y,null);
     }
     @Override
     public void actionPerformed (ActionEvent e){
-        enemy.x+=10;
+        if (enemy.cell.direction.equals(Direction.UP)){
+            enemy.y-=enemy.speed;
+        } else if (enemy.cell.direction.equals(Direction.DOWN)) {
+            enemy.y += enemy.speed;
+        } else if (enemy.cell.direction.equals(Direction.RIGHT)){
+            enemy.x+=enemy.speed;
+        }else if (enemy.cell.direction.equals(Direction.LEFT)){
+                enemy.x -=enemy.speed;
+            }
+        delay = timer.getDelay()/1000;
         repaint();
     }
 
