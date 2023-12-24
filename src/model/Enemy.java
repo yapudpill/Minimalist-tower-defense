@@ -11,6 +11,8 @@ public class Enemy {
 
     public int x;
     public int y;
+    public int initialX;
+    public int initialY;
 
     public PathCell cell;
 
@@ -20,6 +22,8 @@ public class Enemy {
         isOnBoard = false;
         this.speed = speed;
         image = new ImageIcon("src/resources/ennemies/" + name + ".png");
+        initialX = 0;
+        initialY = 0;
     }
 
 

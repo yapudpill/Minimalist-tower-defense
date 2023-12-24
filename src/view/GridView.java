@@ -3,7 +3,7 @@ package src.view;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.AffineTransform;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -26,6 +26,8 @@ public class GridView extends JPanel implements ActionListener {
     Timer timer;
     int spawnDelay;
     int delay = 0;
+    private PathCellView prev;
+    int prevI = 0;
 
     public String [] debut = new String[]{"test_green","test_red"};
 
@@ -45,6 +47,15 @@ public class GridView extends JPanel implements ActionListener {
                     add(new TowerCellView((TowerCell) cell));
                 } else if (cell instanceof PathCell) {
                     PathCellView pathCellView = new PathCellView((PathCell)cell);
+                    if (prevI ==0){
+                        prev = pathCellView;
+                        prevI = 1;
+                    }
+                    else{
+                        prev.getCell().nextCell = pathCellView.getCell();
+                        prev.nextCellView = pathCellView;
+                        prev = pathCellView;
+                    }
                     add(pathCellView);
                     if (((PathCell) cell).spawn){
                         panels.add(pathCellView);
@@ -69,6 +80,7 @@ public class GridView extends JPanel implements ActionListener {
             e.x = panels.get(g).getX();
             e.y = panels.get(g).getY();
             e.cell = panels.get(g).getCell();
+            e.cell.cellView = panels.get(g);
             return e;
         }
         else{
@@ -78,9 +90,15 @@ public class GridView extends JPanel implements ActionListener {
             e.x = panels.get(g).getX();
             e.y = panels.get(g).getY();
             e.cell = panels.get(g).getCell();
+            e.cell.cellView = panels.get(g);
             return e;
         }
 
+    }
+
+    public boolean hasChangedCell (Enemy enemy){
+        return  (Math.abs(enemy.initialX) > enemy.cell.cellView.getWidth()
+                || Math.abs(enemy.initialY) > enemy.cell.cellView.getHeight());
     }
 
     @Override
@@ -105,14 +123,30 @@ public class GridView extends JPanel implements ActionListener {
     @Override
     public void actionPerformed (ActionEvent e){
         for (Enemy enemy: enemies){
-            if (enemy.cell.direction.equals(Direction.UP)){
-                enemy.y-=enemy.speed;
-            } else if (enemy.cell.direction.equals(Direction.DOWN)) {
-                enemy.y += enemy.speed;
-            } else if (enemy.cell.direction.equals(Direction.RIGHT)){
-                enemy.x+=enemy.speed;
-            }else if (enemy.cell.direction.equals(Direction.LEFT)){
-                enemy.x -=enemy.speed;
+            if (enemy.lifePoint == 0 || enemy.cell.direction.equals(Direction.END_OF_PATH)){
+                enemies.remove(enemy);
+            }else{
+                if (hasChangedCell(enemy)){
+                    PathCellView pathCellView = enemy.cell.cellView.nextCellView;
+                    enemy.cell = enemy.cell.nextCell;
+                    enemy.cell.cellView = pathCellView;
+                    enemy.initialX = 0;
+                    enemy.initialY = 0;
+                }
+
+                if (enemy.cell.direction.equals(Direction.UP)){
+                    enemy.y-=enemy.speed;
+                    enemy.initialY-=1;
+                } else if (enemy.cell.direction.equals(Direction.DOWN)) {
+                    enemy.y += enemy.speed;
+                    enemy.initialY += 1;
+                } else if (enemy.cell.direction.equals(Direction.RIGHT)){
+                    enemy.x+=enemy.speed;
+                    enemy.initialX += 1;
+                }else if (enemy.cell.direction.equals(Direction.LEFT)){
+                    enemy.x -=enemy.speed;
+                    enemy.initialX -= 1;
+                }
             }
         }
         if (spawnDelay >= 5000){

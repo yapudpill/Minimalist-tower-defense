@@ -1,6 +1,7 @@
 package src.model;
 
 import src.util.Direction;
+import src.view.PathCellView;
 
 import java.util.ArrayList;
 
@@ -13,6 +14,8 @@ public class PathCell extends Cell {
      */
     public final Direction direction;
     public boolean spawn;
+    public PathCell nextCell;
+    public PathCellView cellView;
 
 
     /**
