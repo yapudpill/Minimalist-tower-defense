@@ -13,7 +13,6 @@ import src.util.Palette;
  */
 public class PathCellView extends JPanel {
     private final PathCell cell;
-    public PathCellView nextCellView;
 
     /**
      * Creates a new <code>PathCellView</code> that displays the specified

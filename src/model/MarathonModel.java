@@ -17,6 +17,7 @@ import src.util.Difficulty;
 public class MarathonModel {
     public int startX, startY; // maybe should be private
     public final Cell[][] grid;
+    public Player player = new Player(3,0,0,1);
 
     /**
      * Creates a new marathon game model with the specified map and difficulty.

@@ -28,4 +28,6 @@ public class MarathonControl {
         model = new MarathonModel(diff, mapName);
         panel = new MarathonView(model, main, this);
     }
+
+
 }
