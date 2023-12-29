@@ -3,6 +3,8 @@ package src.view;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -16,16 +18,19 @@ import src.util.Direction;
  * A <code>JPanel</code> that displays the game grid, where the tower are placed
  * and enemies are shown.
  */
-public class GridView extends JPanel implements ActionListener {
+public class GridView extends JPanel implements ActionListener, MouseListener {
     private final int gridWidth, gridHeight;
     public ArrayList <PathCellView> spawns = new ArrayList<>(); /** list of spawn cells*/
     public ArrayList<Enemy> enemies = new ArrayList<>(); /** List of enemies that are currently on the board */
     private final Timer timer;
     private int spawnDelay;
     private int delay = 0;
-    private PathCellView prev;
     private Player player;
     public MainControl mainControl;
+
+    private TowerShopModel towerShopModel;
+    Cell[][] grid;
+
 
     /** Lists of enemies that the method generateEnemy uses-----------------------------*/
     public String [] debut = new String[]{"test_green","test_red"};
@@ -36,10 +41,12 @@ public class GridView extends JPanel implements ActionListener {
      *
      * @param grid - The cell grid to display
      */
-    public GridView(Cell[][] grid, Player player, MainControl mainControl) {
+    public GridView(Cell[][] grid, Player player, MainControl mainControl, TowerShopModel towerShopModel) {
+        this.grid = grid;
+        addMouseListener(this);
+        this.towerShopModel = towerShopModel;
         gridHeight = grid.length;
         gridWidth = grid[0].length;
-        boolean first = true;
         this.player = player;
         this.mainControl = mainControl;
 
@@ -83,9 +90,10 @@ public class GridView extends JPanel implements ActionListener {
                 }
             }
         }
+        System.out.println(grid[2][5]);
+        System.out.println(grid[1][5]);
         timer = new Timer(10,this);
         timer.start();
-        System.out.println(spawns.size());
     }
 
     public Enemy generateEnemy (int msElapsed){ /** generates a random enemy depending on how much time have passed */
@@ -113,6 +121,10 @@ public class GridView extends JPanel implements ActionListener {
 
     }
 
+    private Cell clieckedCell (Point p){
+        return grid[Math.floorDiv(p.y,getHeight()/gridHeight)][Math.floorDiv(p.x,(getWidth()/gridWidth))];
+    }
+
     public boolean hasChangedCell (Enemy enemy){
         return  (enemy.xOnPanel > enemy.cell.cellView.getWidth()-10
                 ||enemy.yOnPanel > enemy.cell.cellView.getHeight()-10);
@@ -135,6 +147,15 @@ public class GridView extends JPanel implements ActionListener {
         Graphics2D g2d = (Graphics2D) g;
         for (Enemy enemy: enemies){
             g2d.drawImage(enemy.image.getImage(),enemy.x,enemy.y,null);
+        }
+        for (Cell[] cells : grid){
+            for (Cell cell: cells){
+                if (cell instanceof TowerCell){
+                    if (((TowerCell) cell).tower != null){
+                        g2d.drawImage(((TowerCell)(cell)).tower.image.getImage(),((TowerCell)cell).point.x,((TowerCell)cell).point.y,null);
+                    }
+                }
+            }
         }
     }
     @Override
@@ -187,5 +208,34 @@ public class GridView extends JPanel implements ActionListener {
         spawnDelay += timer.getDelay()*2;
         delay += timer.getDelay();
         repaint();
+
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if (clieckedCell(e.getPoint()) instanceof TowerCell){
+            ((TowerCell) clieckedCell(e.getPoint())).tower = towerShopModel.tower;
+            ((TowerCell) clieckedCell(e.getPoint())).point = e.getPoint();
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
     }
 }

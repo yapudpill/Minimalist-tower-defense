@@ -5,6 +5,9 @@ import javax.swing.*;
 import src.controller.MainControl;
 import src.controller.MarathonControl;
 import src.model.MarathonModel;
+import src.model.TowerShopModel;
+
+import java.awt.*;
 
 /**
  * A <code>JPanel</code> that displays the UI of a mathon game. This includes
@@ -21,6 +24,16 @@ public class MarathonView extends JPanel {
      * @param gameControl - The controller that controls the game itself
      */
     public MarathonView(MarathonModel model, MainControl mainControl, MarathonControl gameControl) {
-        add(new GridView(model.grid, model.player,mainControl));
+        TowerShopModel towerShopModel = new TowerShopModel();
+        GridView gridView = new GridView(model.grid, model.player,mainControl, towerShopModel);
+        JPanel panel2 = new JPanel();
+        panel2.add(gridView);
+        TowerShopView towerShopView = new TowerShopView(towerShopModel);
+
+        setLayout(new BorderLayout());
+
+        add(panel2,BorderLayout.CENTER);
+        add(towerShopView,BorderLayout.SOUTH);
+
     }
 }
