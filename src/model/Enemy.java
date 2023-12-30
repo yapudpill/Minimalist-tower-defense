@@ -1,27 +1,23 @@
 package src.model;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class Enemy {
     public ImageIcon image;
     public String name;
     public int lifePoint;
     public int speed;
-
-    public int x;
-    public int y;
-    public int xOnPanel;
-    public int yOnPanel;
+    public Point coordinates;
 
     public PathCell cell;
 
-    public Enemy(String name, int lifePoint, int speed){
+    public Enemy(String name, int lifePoint, int speed, ImageIcon image){
         this.lifePoint = lifePoint;
         this.name = name;
         this.speed = speed;
-        image = new ImageIcon("src/resources/ennemies/" + name + ".png");
-        xOnPanel = 0;
-        yOnPanel = 0;
+        this.image = image;
+        coordinates = new Point();
     }
 
 

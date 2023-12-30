@@ -7,18 +7,11 @@ import src.model.TowerShopModel;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.logging.Handler;
 
 
 
-
-public class TowerShopView extends JPanel implements ActionListener, MouseListener {
+public class TowerShopView extends JPanel implements ActionListener {
     TowerShopModel towerShopModel;
-    JButton button = new JButton("test");
-    JButton button1 = new JButton("123");
-    JButton button2 = new JButton("456");
-    JButton button3 = new JButton("789");
-    JButton button4 = new JButton("101112");
 
 
     public TowerShopView(TowerShopModel towerShopModel){
@@ -31,48 +24,19 @@ public class TowerShopView extends JPanel implements ActionListener, MouseListen
         constraints.weighty = 1;
         constraints.fill = GridBagConstraints.BOTH;
 
-        button.addActionListener(this);
-        button.addMouseListener(this);
+        towerShopModel.button.addActionListener(this);
 
-
-        add(button,constraints);
-        add(button1,constraints);
-        add(button2,constraints);
-        add(button3,constraints);
-        add(button4,constraints);
-        button.setIcon(new ImageIcon("src/resources/towers/test_green.png"));
-        button.setHorizontalTextPosition(JButton.CENTER);
+        for (JButton button: towerShopModel.buttons){
+            add(button,constraints);
+        }
+        towerShopModel.button.setIcon(new ImageIcon("src/resources/towers/test_green.png"));
+        towerShopModel.button.setHorizontalTextPosition(JButton.CENTER);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == button){
+        if (e.getSource() == towerShopModel.button){
             towerShopModel.tower = new TowerModel("test_green",0,0,0);
         }
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-        System.out.println(e.getLocationOnScreen());
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
     }
 }

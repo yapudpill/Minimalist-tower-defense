@@ -15,7 +15,7 @@ public class PathCell extends Cell {
     public final Direction direction;
     public boolean spawn;
     public PathCell nextCell;
-    public PathCellView cellView;
+    public Enemy enemy;
 
 
     /**

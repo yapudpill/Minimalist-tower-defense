@@ -7,5 +7,5 @@ import java.awt.*;
  */
 public class TowerCell extends Cell {
     public TowerModel tower;
-    public Point point;
+    public Point coordinates;
 }

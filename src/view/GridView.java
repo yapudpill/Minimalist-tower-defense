@@ -1,14 +1,15 @@
 package src.view;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import src.controller.MainControl;
@@ -51,6 +52,20 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
         this.mainControl = mainControl;
 
         setLayout(new GridLayout(gridHeight, gridWidth));
+        addCellsToView();
+
+        this.addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent componentEvent) {
+                updateImageSize();
+                repaint();
+            }
+        });
+        
+        timer = new Timer(1000/120,this);
+        timer.start();
+    }
+    
+    private void addCellsToView (){
         for (int i = 0; i<gridHeight;i++) {
             for (int j = 0;j<gridWidth;j++) {
                 if (grid[i][j] instanceof TowerCell) {
@@ -59,23 +74,19 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
                     PathCellView pathCellView = new PathCellView((PathCell)grid[i][j]);
                     if (((PathCell)(grid[i][j])).direction.equals(Direction.UP)){
                         ((PathCell) grid[i][j]).nextCell = (PathCell) grid[i-1][j];
-                        ((PathCell) grid[i][j]).cellView = pathCellView;
                     }
                     else{
                         if (((PathCell)(grid[i][j])).direction.equals(Direction.DOWN)){
                             ((PathCell) grid[i][j]).nextCell = (PathCell) grid[i+1][j];
-                            ((PathCell) grid[i][j]).cellView = pathCellView;
 
                         }
                         else{
                             if (((PathCell)(grid[i][j])).direction.equals(Direction.RIGHT)){
                                 ((PathCell) grid[i][j]).nextCell = (PathCell) grid[i][j+1];
-                                ((PathCell) grid[i][j]).cellView = pathCellView;
                             }
                             else{
                                 if (((PathCell)(grid[i][j])).direction.equals(Direction.LEFT)){
                                     ((PathCell) grid[i][j]).nextCell = (PathCell) grid[i][j-1];
-                                    ((PathCell) grid[i][j]).cellView = pathCellView;
                                 }
                             }
                         }
@@ -90,45 +101,80 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
                 }
             }
         }
-        System.out.println(grid[2][5]);
-        System.out.println(grid[1][5]);
-        timer = new Timer(10,this);
-        timer.start();
     }
-
-    public Enemy generateEnemy (int msElapsed){ /** generates a random enemy depending on how much time have passed */
+    
+    private Image generateImage (String s){
+        BufferedImage img = null;
+        try {
+            img = ImageIO.read(new File("src/resources/ennemies/" + s + ".png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Image dimg = img.getScaledInstance(getWidth()/gridWidth,getHeight()/gridHeight,Image.SCALE_DEFAULT);
+        return dimg;
+    }
+    
+    private void updateImageSize (){
+        for (int i = 0; i<gridHeight;i++){
+            for (int j = 0;j<gridWidth;j++ ){
+                if (grid[i][j] instanceof TowerCell){
+                    if (((TowerCell) grid[i][j]).tower != null && ((TowerCell) grid[i][j]).tower.image != null){
+                        ((TowerCell) grid[i][j]).tower.image = new ImageIcon(generateImage(((TowerCell) grid[i][j]).tower.name));
+                        ((TowerCell) grid[i][j]).coordinates = getCellViewCoordsFromIndex(i,j);
+                        
+                    }
+                }
+                else{
+                    if (grid[i][j] instanceof PathCell){
+                        if (((PathCell) grid[i][j]).enemy != null){
+                            ((PathCell) grid[i][j]).enemy.image =  new ImageIcon(generateImage(((PathCell) grid[i][j]).enemy.name));
+                            ((PathCell) grid[i][j]).enemy.coordinates = getCellViewCoordsFromIndex(i,j);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    /** generates a random enemy depending on how much time has passed */
+    public Enemy generateEnemy (int msElapsed){
         Enemy e;
         if (msElapsed <= 120000){
             int f = new Random().nextInt(debut.length);
-            e = new Enemy(debut[f],100,10);
+            e = new Enemy(debut[f],100,10,new ImageIcon (generateImage(debut[f])));
             int g = new Random().nextInt(spawns.size());
-            e.x = spawns.get(g).getX();
-            e.y = spawns.get(g).getY();
+            e.coordinates.x = spawns.get(g).getX();
+            e.coordinates.y = spawns.get(g).getY();
             e.cell = spawns.get(g).getCell();
-            e.cell.cellView = spawns.get(g);
+            e.cell.enemy = e;
             return e;
         }
         else{
             int f = new Random().nextInt(debut.length);
-            e =  new Enemy(debut[f],200 + msElapsed/20000,10); /** A CHANGER */
+            e =  new Enemy(debut[f],200 + msElapsed/20000,10,new ImageIcon (generateImage(debut[f]))); /** A CHANGER */
             int g = new Random().nextInt(spawns.size());
-            e.x = spawns.get(g).getX();
-            e.y = spawns.get(g).getY();
+            e.coordinates.x = spawns.get(g).getX();
+            e.coordinates.y = spawns.get(g).getY();
             e.cell = spawns.get(g).getCell();
-            e.cell.cellView = spawns.get(g);
+            e.cell.enemy = e;
             return e;
         }
 
     }
+    
 
-    private Cell clieckedCell (Point p){
+    private Cell getCell (Point p){
         return grid[Math.floorDiv(p.y,getHeight()/gridHeight)][Math.floorDiv(p.x,(getWidth()/gridWidth))];
+    }
+    
+    private Point getCellViewCoordsFromIndex (int x, int y){
+        return (new Point (y*getWidth()/gridWidth,x*getHeight()/gridHeight));
     }
 
     public boolean hasChangedCell (Enemy enemy){
-        return  (enemy.xOnPanel > enemy.cell.cellView.getWidth()-10
-                ||enemy.yOnPanel > enemy.cell.cellView.getHeight()-10);
+        return  getCell(new Point(enemy.coordinates.x,enemy.coordinates.y)) != enemy.cell;
     }
+    
 
     @Override
     public Dimension getPreferredSize() {
@@ -146,13 +192,13 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
         super.paint(g);
         Graphics2D g2d = (Graphics2D) g;
         for (Enemy enemy: enemies){
-            g2d.drawImage(enemy.image.getImage(),enemy.x,enemy.y,null);
+            g2d.drawImage(enemy.image.getImage(),enemy.coordinates.x,enemy.coordinates.y,null);
         }
         for (Cell[] cells : grid){
             for (Cell cell: cells){
                 if (cell instanceof TowerCell){
                     if (((TowerCell) cell).tower != null){
-                        g2d.drawImage(((TowerCell)(cell)).tower.image.getImage(),((TowerCell)cell).point.x,((TowerCell)cell).point.y,null);
+                        g2d.drawImage(((TowerCell)(cell)).tower.image.getImage(),((TowerCell)cell).coordinates.x,((TowerCell)cell).coordinates.y,null);
                     }
                 }
             }
@@ -164,6 +210,7 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
             timer.stop();
             mainControl.loadStartMenu();
         }
+        
         Iterator<Enemy> iterator = enemies.iterator();
         while (iterator.hasNext()) {
             Enemy enemy = iterator.next();
@@ -179,25 +226,19 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
         }
         for (Enemy enemy: enemies){
             if (hasChangedCell(enemy)){
-                PathCellView pathCellView = enemy.cell.nextCell.cellView;
+                enemy.cell.enemy = null;
+                enemy.cell.nextCell.enemy = enemy;
                 enemy.cell = enemy.cell.nextCell;
-                enemy.cell.cellView = pathCellView;
-                enemy.xOnPanel = 0;
-                enemy.yOnPanel = 0;
             }
 
             if (enemy.cell.direction.equals(Direction.UP)){
-                enemy.y-=enemy.speed;
-                enemy.yOnPanel+=enemy.speed;
+                enemy.coordinates.y-=enemy.speed;
             } else if (enemy.cell.direction.equals(Direction.DOWN)) {
-                enemy.y += enemy.speed;
-                enemy.yOnPanel += enemy.speed;
+                enemy.coordinates.y += enemy.speed;
             } else if (enemy.cell.direction.equals(Direction.RIGHT)){
-                enemy.x+=enemy.speed;
-                enemy.xOnPanel += enemy.speed;
+                enemy.coordinates.x+=enemy.speed;
             }else if (enemy.cell.direction.equals(Direction.LEFT)){
-                enemy.x -=enemy.speed;
-                enemy.xOnPanel += enemy.speed;
+                enemy.coordinates.x -=enemy.speed;
             }
         }
         if (spawnDelay >= 5000){
@@ -206,16 +247,25 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
             spawnDelay = 0;
         }
         spawnDelay += timer.getDelay()*2;
-        delay += timer.getDelay();
+        delay += timer.getDelay()*2;
         repaint();
 
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (clieckedCell(e.getPoint()) instanceof TowerCell){
-            ((TowerCell) clieckedCell(e.getPoint())).tower = towerShopModel.tower;
-            ((TowerCell) clieckedCell(e.getPoint())).point = e.getPoint();
+        Point clickPoint = e.getPoint();
+        int cellWidth = getWidth() / gridWidth; 
+        int cellHeight = getHeight() / gridHeight;
+        
+        int cellX = Math.floorDiv(clickPoint.x, cellWidth) * cellWidth;
+        int cellY = Math.floorDiv(clickPoint.y, cellHeight) * cellHeight;
+        
+        if (towerShopModel.tower != null && getCell(e.getPoint()) instanceof TowerCell){
+            Image image = generateImage(towerShopModel.tower.name);
+            ((TowerCell) getCell(e.getPoint())).tower = new TowerModel(towerShopModel.tower,new ImageIcon(image));
+            ((TowerCell) getCell(e.getPoint())).coordinates = new Point (cellX, cellY);
+            towerShopModel.tower = null;
         }
     }
 
