@@ -26,10 +26,11 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
     private final Timer timer;
     private int spawnDelay;
     private int delay = 0;
-    private Player player;
+    private final Player player;
     public MainControl mainControl;
 
-    private TowerShopModel towerShopModel;
+    private final TowerShopModel towerShopModel;
+    private TowerShopView towerShopView;
     Cell[][] grid;
 
 
@@ -42,10 +43,11 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
      *
      * @param grid - The cell grid to display
      */
-    public GridView(Cell[][] grid, Player player, MainControl mainControl, TowerShopModel towerShopModel) {
+    public GridView(Cell[][] grid, Player player, MainControl mainControl, TowerShopModel towerShopModel, TowerShopView towerShopView) {
         this.grid = grid;
         addMouseListener(this);
         this.towerShopModel = towerShopModel;
+        this.towerShopView = towerShopView;
         gridHeight = grid.length;
         gridWidth = grid[0].length;
         this.player = player;
@@ -61,7 +63,7 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
             }
         });
         
-        timer = new Timer(1000/120,this);
+        timer = new Timer(1,this);
         timer.start();
     }
     
@@ -167,8 +169,8 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
         return grid[Math.floorDiv(p.y,getHeight()/gridHeight)][Math.floorDiv(p.x,(getWidth()/gridWidth))];
     }
     
-    private Point getCellViewCoordsFromIndex (int x, int y){
-        return (new Point (y*getWidth()/gridWidth,x*getHeight()/gridHeight));
+    private Point getCellViewCoordsFromIndex (int i, int j){
+        return (new Point (j*getWidth()/gridWidth,i*getHeight()/gridHeight));
     }
 
     public boolean hasChangedCell (Enemy enemy){
@@ -207,8 +209,6 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
     @Override
     public void actionPerformed (ActionEvent e){
         if (player.life == 0){
-            timer.stop();
-            mainControl.loadStartMenu();
         }
         
         Iterator<Enemy> iterator = enemies.iterator();
@@ -246,9 +246,20 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
             enemies.add(f);
             spawnDelay = 0;
         }
-        spawnDelay += timer.getDelay()*2;
-        delay += timer.getDelay()*2;
+        
+        spawnDelay += timer.getDelay()*20;
+        delay += timer.getDelay()*20;
         repaint();
+
+
+        if (towerShopModel.tower == null && towerShopView.hasBeenAdded){
+            System.out.println("12");
+            towerShopView.remove(towerShopView.label);
+            towerShopView.hasBeenAdded = false;
+            towerShopView.revalidate();
+            towerShopView.repaint();
+        }
+        towerShopView.label.setPreferredSize(new Dimension(towerShopView.getWidth()/9,towerShopView.getHeight()/2));
 
     }
 
@@ -261,12 +272,16 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
         int cellX = Math.floorDiv(clickPoint.x, cellWidth) * cellWidth;
         int cellY = Math.floorDiv(clickPoint.y, cellHeight) * cellHeight;
         
-        if (towerShopModel.tower != null && getCell(e.getPoint()) instanceof TowerCell){
+        if (towerShopModel.tower != null && getCell(clickPoint) instanceof TowerCell){
             Image image = generateImage(towerShopModel.tower.name);
             ((TowerCell) getCell(e.getPoint())).tower = new TowerModel(towerShopModel.tower,new ImageIcon(image));
             ((TowerCell) getCell(e.getPoint())).coordinates = new Point (cellX, cellY);
             towerShopModel.tower = null;
         }
+        else{
+            towerShopModel.tower = null;
+        }
+        
     }
 
     @Override

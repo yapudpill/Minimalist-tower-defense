@@ -25,10 +25,10 @@ public class MarathonView extends JPanel {
      */
     public MarathonView(MarathonModel model, MainControl mainControl, MarathonControl gameControl) {
         TowerShopModel towerShopModel = new TowerShopModel();
-        GridView gridView = new GridView(model.grid, model.player,mainControl, towerShopModel);
+        TowerShopView towerShopView = new TowerShopView(towerShopModel);
+        GridView gridView = new GridView(model.grid, model.player,mainControl, towerShopModel, towerShopView);
         JPanel panel2 = new JPanel();
         panel2.add(gridView);
-        TowerShopView towerShopView = new TowerShopView(towerShopModel);
 
         setLayout(new BorderLayout());
 
