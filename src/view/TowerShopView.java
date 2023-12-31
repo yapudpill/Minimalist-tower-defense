@@ -25,13 +25,10 @@ public class TowerShopView extends JPanel implements ActionListener {
     public TowerShopModel [] buttons;
     public JLabel label;
     public boolean hasBeenAdded = false;
-    public Player player;
 
-
-    public TowerShopView(Player player){
-        this.player = player;
-        greenTower = new TowerShopModel(new TowerModel("test_green",10,2,50),new JButton("Green tower"));
-        redTower = new TowerShopModel(new TowerModel("test_red",30,1,50),new JButton("Red tower"));
+    public TowerShopView(){
+        greenTower = new TowerShopModel(new TowerModel("test_green",10,2,50),new JButton("50"));
+        redTower = new TowerShopModel(new TowerModel("test_red",30,1,50),new JButton("50"));
         button1 = new TowerShopModel(null,new JButton("123"));
         button2 = new TowerShopModel(null,new JButton("456"));
         button3 = new TowerShopModel(null,new JButton("789"));
@@ -70,7 +67,7 @@ public class TowerShopView extends JPanel implements ActionListener {
         Image dimg = img.getScaledInstance(width,height,Image.SCALE_SMOOTH);
         return dimg;
     }
-
+    
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == greenTower.button){

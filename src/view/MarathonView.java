@@ -24,7 +24,7 @@ public class MarathonView extends JPanel {
      * @param gameControl - The controller that controls the game itself
      */
     public MarathonView(MarathonModel model, MainControl mainControl, MarathonControl gameControl) {
-        TowerShopView towerShopView = new TowerShopView(model.player);
+        TowerShopView towerShopView = new TowerShopView();
         GridView gridView = new GridView(model.grid, model.player,mainControl,towerShopView);
         JPanel panel2 = new JPanel();
         panel2.add(gridView);

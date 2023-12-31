@@ -2,6 +2,7 @@ package src.view;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -26,7 +27,6 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
     public ArrayList<TowerCell> towerCells = new ArrayList<>();
     private final Timer timer;
     private int spawnDelay;
-    private int towersDelay;
     private int delay;
     private final Player player;
     public MainControl mainControl;
@@ -106,6 +106,8 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
     }
     
     private Image generateImage (String s){
+        System.out.println(getHeight());
+        System.out.println(getWidth());
         BufferedImage img = null;
         try {
             img = ImageIO.read(new File("src/resources/ennemies/" + s + ".png"));
@@ -216,6 +218,12 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
     public void paint(Graphics g){
         super.paint(g);
         Graphics2D g2d = (Graphics2D) g;
+        
+        g2d.setColor(Color.ORANGE);
+        g2d.fillRect(0,getHeight()-getHeight()/13,getWidth()/10,getHeight()/13);
+        g2d.setColor(Color.BLACK);
+        g2d.drawString(String.valueOf(player.gold),getWidth()/20,getHeight()-getHeight()/26);
+        
         for (Enemy enemy: enemies){
             g2d.drawImage(enemy.image.getImage(),enemy.coordinates.x,enemy.coordinates.y,null);
         }
@@ -256,7 +264,6 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
                 enemy.cell.nextCell.enemy = enemy;
                 enemy.cell = enemy.cell.nextCell;
             }
-            System.out.println(enemy.lifePoint);
 
             if (enemy.cell.direction.equals(Direction.UP)){
                 enemy.coordinates.y-=enemy.speed;
@@ -274,7 +281,7 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
                         if (towerCell.tower.cooldown >= 2000) {
                             enemy.lifePoint -= towerCell.tower.damage;
                             towerCell.tower.cooldown = 0;
-                            System.out.println( towerCell.tower + " a fait " + towerCell.tower.damage + " dmg à " + enemy);
+                            //System.out.println( towerCell.tower + " a fait " + towerCell.tower.damage + " dmg à " + enemy);
                         }
                     }
                 }
@@ -345,6 +352,7 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
+        System.out.println(e.getPoint());
 
     }
 
