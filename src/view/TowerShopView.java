@@ -1,6 +1,7 @@
 package src.view;
 
 
+import src.model.Player;
 import src.model.TowerModel;
 import src.model.TowerShopModel;
 
@@ -14,28 +15,43 @@ import java.io.IOException;
 
 
 public class TowerShopView extends JPanel implements ActionListener {
-    TowerShopModel towerShopModel;
-    JLabel label;
-    boolean hasBeenAdded = false;
+    public TowerShopModel greenTower;
+    public TowerShopModel redTower;
+    public TowerShopModel button1;
+    public TowerShopModel button2;
+    public TowerShopModel button3;
+    public TowerModel towerModel;
+
+    public TowerShopModel [] buttons;
+    public JLabel label;
+    public boolean hasBeenAdded = false;
+    public Player player;
 
 
-    public TowerShopView(TowerShopModel towerShopModel){
-        this.towerShopModel = towerShopModel;
+    public TowerShopView(Player player){
+        this.player = player;
+        greenTower = new TowerShopModel(new TowerModel("test_green",10,2,50),new JButton("Green tower"));
+        redTower = new TowerShopModel(new TowerModel("test_red",30,1,50),new JButton("Red tower"));
+        button1 = new TowerShopModel(null,new JButton("123"));
+        button2 = new TowerShopModel(null,new JButton("456"));
+        button3 = new TowerShopModel(null,new JButton("789"));
+        buttons = new TowerShopModel[]{greenTower,redTower,button1,button2,button3};
+        
         setLayout(new GridLayout());
         setPreferredSize(new Dimension(900,100));
         setBackground(Color.BLUE);
         
 
         
-        for (JButton button: towerShopModel.buttons){
-            add(button);
-            button.addActionListener(this);
+        for (TowerShopModel towerShopModel: buttons){
+            add(towerShopModel.button);
+            towerShopModel.button.addActionListener(this);
         }
         
-        towerShopModel.button.setIcon(new ImageIcon(generateImage("test_green",900/towerShopModel.buttons.length,100)));
-        towerShopModel.button.setHorizontalTextPosition(JButton.CENTER);
-        towerShopModel.button1.setIcon(new ImageIcon(generateImage("test_red",900/towerShopModel.buttons.length,100)));
-        towerShopModel.button1.setHorizontalTextPosition(JButton.CENTER);
+        greenTower.button.setIcon(new ImageIcon(generateImage("test_green",900/buttons.length,100)));
+        greenTower.button.setHorizontalTextPosition(JButton.CENTER);
+        redTower.button.setIcon(new ImageIcon(generateImage("test_red",900/buttons.length,100)));
+        redTower.button.setHorizontalTextPosition(JButton.CENTER);
         
         
         
@@ -56,16 +72,16 @@ public class TowerShopView extends JPanel implements ActionListener {
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {// probleme de taille d'image des boutons
-        if (e.getSource() == towerShopModel.button){
-            towerShopModel.tower = new TowerModel("test_green",10,3,0);
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == greenTower.button){
+            towerModel = greenTower.tower;
             label.setIcon(new ImageIcon(generateImage("test_green",getWidth()/7,getHeight()/2)));
             add(label);
             hasBeenAdded = true;
         }
         else{
-            if(e.getSource() == towerShopModel.button1){
-                towerShopModel.tower = new TowerModel("test_red",50,1,0);
+            if(e.getSource() == redTower.button){
+                towerModel = redTower.tower;
                 label.setIcon(new ImageIcon(generateImage("test_red",getWidth()/7,getHeight()/2)));
                 add(label);
                 hasBeenAdded = true;
