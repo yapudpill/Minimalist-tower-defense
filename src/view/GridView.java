@@ -23,9 +23,11 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
     private final int gridWidth, gridHeight;
     public ArrayList <PathCellView> spawns = new ArrayList<>(); /** list of spawn cells*/
     public ArrayList<Enemy> enemies = new ArrayList<>(); /** List of enemies that are currently on the board */
+    public ArrayList<TowerCell> towerCells = new ArrayList<>();
     private final Timer timer;
     private int spawnDelay;
-    private int delay = 0;
+    private int towersDelay;
+    private int delay;
     private final Player player;
     public MainControl mainControl;
 
@@ -143,7 +145,7 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
         Enemy e;
         if (msElapsed <= 120000){
             int f = new Random().nextInt(debut.length);
-            e = new Enemy(debut[f],100,10,new ImageIcon (generateImage(debut[f])));
+            e = new Enemy(debut[f],100,1,new ImageIcon (generateImage(debut[f])));
             int g = new Random().nextInt(spawns.size());
             e.coordinates.x = spawns.get(g).getX();
             e.coordinates.y = spawns.get(g).getY();
@@ -153,7 +155,7 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
         }
         else{
             int f = new Random().nextInt(debut.length);
-            e =  new Enemy(debut[f],200 + msElapsed/20000,10,new ImageIcon (generateImage(debut[f]))); /** A CHANGER */
+            e =  new Enemy(debut[f],200 + msElapsed/20000,1,new ImageIcon (generateImage(debut[f]))); /** A CHANGER */
             int g = new Random().nextInt(spawns.size());
             e.coordinates.x = spawns.get(g).getX();
             e.coordinates.y = spawns.get(g).getY();
@@ -164,6 +166,29 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
 
     }
     
+    public Point getIndexFromCell (Cell cell){
+        for (int i = 0; i <gridHeight; i++){
+            for (int j = 0; j < gridWidth; j++){
+                if (grid[i][j] == cell){
+                    return new Point(i,j);
+                }
+            }
+        }
+        return null; // not supposed to happen
+    }
+
+    public boolean isInRange(TowerCell towerCell, Enemy enemy) {
+        int range = towerCell.tower.range;
+        int towerX = getIndexFromCell(towerCell).x;
+        int towerY = getIndexFromCell(towerCell).y;
+        int enemyX = getIndexFromCell(enemy.cell).x;
+        int enemyY = getIndexFromCell(enemy.cell).y;
+
+        int distanceX = Math.abs(towerX - enemyX);
+        int distanceY = Math.abs(towerY - enemyY);
+
+        return distanceX <= range && distanceY <= range;
+    }
 
     private Cell getCell (Point p){
         return grid[Math.floorDiv(p.y,getHeight()/gridHeight)][Math.floorDiv(p.x,(getWidth()/gridWidth))];
@@ -240,20 +265,36 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
             }else if (enemy.cell.direction.equals(Direction.LEFT)){
                 enemy.coordinates.x -=enemy.speed;
             }
+            
+            for (TowerCell towerCell: towerCells){
+                if (towerCell.tower != null){
+                    if (isInRange(towerCell,enemy)){
+                        if (towerCell.tower.cooldown >= 2000) {
+                            enemy.lifePoint -= towerCell.tower.damage;
+                            towerCell.tower.cooldown = 0;
+                        }
+                    }
+                    else{
+                        towerCell.tower.cooldown += delay*20;
+                    }
+                }
+            }
         }
+        
         if (spawnDelay >= 5000){
             Enemy f = generateEnemy(delay);
             enemies.add(f);
             spawnDelay = 0;
         }
         
+        
         spawnDelay += timer.getDelay()*20;
         delay += timer.getDelay()*20;
+        towersDelay += timer.getDelay()*20;
         repaint();
 
 
         if (towerShopModel.tower == null && towerShopView.hasBeenAdded){
-            System.out.println("12");
             towerShopView.remove(towerShopView.label);
             towerShopView.hasBeenAdded = false;
             towerShopView.revalidate();
@@ -274,8 +315,9 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
         
         if (towerShopModel.tower != null && getCell(clickPoint) instanceof TowerCell){
             Image image = generateImage(towerShopModel.tower.name);
-            ((TowerCell) getCell(e.getPoint())).tower = new TowerModel(towerShopModel.tower,new ImageIcon(image));
-            ((TowerCell) getCell(e.getPoint())).coordinates = new Point (cellX, cellY);
+            ((TowerCell) getCell(clickPoint)).tower = new TowerModel(towerShopModel.tower,new ImageIcon(image));
+            ((TowerCell) getCell(clickPoint)).coordinates = new Point (cellX, cellY);
+            towerCells.add((TowerCell) getCell(clickPoint));
             towerShopModel.tower = null;
         }
         else{

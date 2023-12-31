@@ -8,8 +8,8 @@ public class TowerModel {
     public int damage;
     public int range;
     public int cost;
-    public Point index;
     public ImageIcon image;
+    public int cooldown;
     
     public TowerModel (String name, int damage, int range, int cost){
         this.name = name;

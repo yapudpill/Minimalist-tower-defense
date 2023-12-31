@@ -58,14 +58,14 @@ public class TowerShopView extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {// probleme de taille d'image des boutons
         if (e.getSource() == towerShopModel.button){
-            towerShopModel.tower = new TowerModel("test_green",0,0,0);
+            towerShopModel.tower = new TowerModel("test_green",10,3,0);
             label.setIcon(new ImageIcon(generateImage("test_green",getWidth()/7,getHeight()/2)));
             add(label);
             hasBeenAdded = true;
         }
         else{
             if(e.getSource() == towerShopModel.button1){
-                towerShopModel.tower = new TowerModel("test_red",0,0,0);
+                towerShopModel.tower = new TowerModel("test_red",50,1,0);
                 label.setIcon(new ImageIcon(generateImage("test_red",getWidth()/7,getHeight()/2)));
                 add(label);
                 hasBeenAdded = true;
