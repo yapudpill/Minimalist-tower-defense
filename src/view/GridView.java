@@ -284,14 +284,13 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
                 enemy.coordinates.x -=enemy.speed;
             }
             
-            // Damage the enemy when an enemy is in the range of a tower (the tower attacks every enemy that is in its range at the same time, so it has to be changed (?) (can be fixed by giving an attribute enemy to a tower)
-            for (TowerCell towerCell: towerCells){
+            for (TowerCell towerCell: towerCells){ // the towers will always prioritize the enemy that is closest to the END_OF_PATH because whenever a tower attacks it resets its cd to 0, which means that the next enemy in the loop won't trigger the attack (is it what we want ?)
                 if (towerCell.tower != null){
                     if (isInRange(towerCell,enemy)){
                         if (towerCell.tower.cooldown >= 2000) {
                             enemy.lifePoint -= towerCell.tower.damage;
                             towerCell.tower.cooldown = 0;
-                            //System.out.println( towerCell.tower + " a fait " + towerCell.tower.damage + " dmg à " + enemy);
+                            //System.out.println( towerCell.tower + " a fait " + towerCell.tower.damage + " dmg à " + enemy + "de couleur " + enemy.name + ", il lui reste " + enemy.lifePoint + " hp");
                         }
                     }
                 }

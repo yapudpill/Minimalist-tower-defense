@@ -28,7 +28,7 @@ public class TowerShopView extends JPanel implements ActionListener { // The bot
     public boolean hasBeenAdded = false; // Checks whether the Player has selected a cell
 
     public TowerShopView(){
-        greenTower = new TowerShopModel(new TowerModel("test_green",10,2,50),new JButton("50" /* the cost*/));
+        greenTower = new TowerShopModel(new TowerModel("test_green",10,10,50),new JButton("50" /* the cost*/));
         redTower = new TowerShopModel(new TowerModel("test_red",30,1,50),new JButton("50"/* the cost*/));
         button1 = new TowerShopModel(null,new JButton("123"));
         button2 = new TowerShopModel(null,new JButton("456"));
