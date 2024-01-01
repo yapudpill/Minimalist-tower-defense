@@ -22,17 +22,17 @@ import src.util.Direction;
  */
 public class GridView extends JPanel implements ActionListener, MouseListener {
     private final int gridWidth, gridHeight;
-    public ArrayList <PathCellView> spawns = new ArrayList<>(); /** list of spawn cells*/
-    public ArrayList<Enemy> enemies = new ArrayList<>(); /** List of enemies that are currently on the board */
-    public ArrayList<TowerCell> towerCells = new ArrayList<>();
+    private final ArrayList <PathCellView> spawns = new ArrayList<>(); // List of spawn cells
+    private final ArrayList<Enemy> enemies = new ArrayList<>(); // List of enemies that are currently on the board 
+    private final ArrayList<TowerCell> towerCells = new ArrayList<>(); // List of TowerCells that currently has a tower
     private final Timer timer;
     private int spawnDelay;
-    private int delay;
+    private int delay; // The amount of time that has passed in ms (timer.getDelay doesn't work as intended, so it's not precise)
     private final Player player;
-    public MainControl mainControl;
+    private final MainControl mainControl;
     
-    private TowerShopView towerShopView;
-    Cell[][] grid;
+    private final TowerShopView towerShopView;
+    private final Cell[][] grid;
 
 
     /** Lists of enemies that the method generateEnemy uses-----------------------------*/
@@ -57,7 +57,7 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
         addCellsToView();
 
         this.addComponentListener(new ComponentAdapter() {
-            public void componentResized(ComponentEvent componentEvent) {
+            public void componentResized(ComponentEvent componentEvent) { // Update the images whenever the player resize the window
                 updateImageSize();
                 repaint();
             }
@@ -66,7 +66,6 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
         timer = new Timer(1,this);
         timer.start();
     }
-    
     private void addCellsToView (){
         for (int i = 0; i<gridHeight;i++) {
             for (int j = 0;j<gridWidth;j++) {
@@ -104,10 +103,8 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
             }
         }
     }
-    
+    /** Generates an image with a size that fills the entire cell  (only need to put the file's name without the path and extension(has to be png tho)*/
     private Image generateImage (String s){
-        System.out.println(getHeight());
-        System.out.println(getWidth());
         BufferedImage img = null;
         try {
             img = ImageIO.read(new File("src/resources/ennemies/" + s + ".png"));
@@ -117,7 +114,7 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
         Image dimg = img.getScaledInstance(getWidth()/gridWidth,getHeight()/gridHeight,Image.SCALE_DEFAULT);
         return dimg;
     }
-    
+    /** Update tower and enemie's images when the player resizes the window */
     private void updateImageSize (){
         for (int i = 0; i<gridHeight;i++){
             for (int j = 0;j<gridWidth;j++ ){
@@ -140,7 +137,7 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
         }
     }
     
-    /** generates a random enemy depending on how much time has passed */
+    /** Generates a random enemy depending on how much time has passed */
     public Enemy generateEnemy (int msElapsed){
         Enemy e;
         if (msElapsed <= 120000){
@@ -165,7 +162,7 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
         }
 
     }
-    
+    /** Returns the index of a cell in the array Grid, where point.x is the xth line and point.y is the yth line */ 
     public Point getIndexFromCell (Cell cell){
         for (int i = 0; i <gridHeight; i++){
             for (int j = 0; j < gridWidth; j++){
@@ -174,9 +171,10 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
                 }
             }
         }
-        return null; // not supposed to happen
+        return null; // Not supposed to happen
     }
 
+    /** Checks whether an enemy is within a tower's range */
     public boolean isInRange(TowerCell towerCell, Enemy enemy) {
         int range = towerCell.tower.range;
         int towerX = getIndexFromCell(towerCell).x;
@@ -190,14 +188,17 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
         return distanceX <= range && distanceY <= range;
     }
 
+    /** Gives the corresponding cell for the given coordinates on the game board */   
     private Cell getCell (Point p){
         return grid[Math.floorDiv(p.y,getHeight()/gridHeight)][Math.floorDiv(p.x,(getWidth()/gridWidth))];
     }
     
+    /** Gives the corresponding coordinates on the game board for the given index in the array Grid */
     private Point getCellViewCoordsFromIndex (int i, int j){
         return (new Point (j*getWidth()/gridWidth,i*getHeight()/gridHeight));
     }
 
+    /** Checks whether an enemy has changed a cell visually */
     public boolean hasChangedCell (Enemy enemy){
         return  getCell(new Point(enemy.coordinates.x,enemy.coordinates.y)) != enemy.cell;
     }
@@ -219,14 +220,20 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
         super.paint(g);
         Graphics2D g2d = (Graphics2D) g;
         
+        // Player's gold view --------------------------------------------------------------------------
         g2d.setColor(Color.ORANGE);
         g2d.fillRect(0,getHeight()-getHeight()/13,getWidth()/10,getHeight()/13);
         g2d.setColor(Color.BLACK);
-        g2d.drawString(String.valueOf(player.gold),getWidth()/20,getHeight()-getHeight()/26);
+        g2d.drawString(String.valueOf(player.gold),getWidth()/26,getHeight()-getHeight()/26);
+        //----------------------------------------------------------------------------------------------
         
+        // enemies' wiew------------------------------------------------------------------------------
         for (Enemy enemy: enemies){
             g2d.drawImage(enemy.image.getImage(),enemy.coordinates.x,enemy.coordinates.y,null);
         }
+        //-------------------------------------------------------------------------------------------------
+        
+        //towers' view--------------------------------------------------------------------------------------
         for (Cell[] cells : grid){
             for (Cell cell: cells){
                 if (cell instanceof TowerCell){
@@ -236,6 +243,7 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
                 }
             }
         }
+        //---------------------------------------------------------------------------------------------------
     }
     @Override
     public void actionPerformed (ActionEvent e){
@@ -245,26 +253,27 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
         }
         
         Iterator<Enemy> iterator = enemies.iterator();
-        while (iterator.hasNext()) {
+        while (iterator.hasNext()) { // Makes the player lose one life point whenever an enemy reach END_OF_PATH and removes the enemy from the board
             Enemy enemy = iterator.next();
             if (enemy.cell.direction.equals(Direction.END_OF_PATH)) {
                 player.life--;
                 iterator.remove();
             }
-            else {
+            else { // Makes the player gain 20 gold everytime an enemy dies (can be changed by making an if on the enemy's name) and makes it disappear
                 if (enemy.lifePoint <= 0){
                     player.gold += 20;
                     iterator.remove();
                 }
             }
         }
-        for (Enemy enemy: enemies){
+        for (Enemy enemy: enemies){ // Change the cell that is bound to the enemy when it changes a cell visually
             if (hasChangedCell(enemy)){
                 enemy.cell.enemy = null;
                 enemy.cell.nextCell.enemy = enemy;
                 enemy.cell = enemy.cell.nextCell;
             }
-
+            
+            // Makes the enemy move depending on the Direction, that the PathCell the enemy currently is in, has 
             if (enemy.cell.direction.equals(Direction.UP)){
                 enemy.coordinates.y-=enemy.speed;
             } else if (enemy.cell.direction.equals(Direction.DOWN)) {
@@ -275,6 +284,7 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
                 enemy.coordinates.x -=enemy.speed;
             }
             
+            // Damage the enemy when an enemy is in the range of a tower (the tower attacks every enemy that is in its range at the same time, so it has to be changed (?) (can be fixed by giving an attribute enemy to a tower)
             for (TowerCell towerCell: towerCells){
                 if (towerCell.tower != null){
                     if (isInRange(towerCell,enemy)){
@@ -288,16 +298,19 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
             }
         }
         
+        // Towers' cooldown 
         for (TowerCell towerCell: towerCells){
             towerCell.tower.cooldown += timer.getDelay()*20;
         }
         
+        // Frequency at which enemies spawn
         if (spawnDelay >= 5000){
             Enemy f = generateEnemy(delay);
             enemies.add(f);
             spawnDelay = 0;
         }
         
+        // Checks whether the player has enough gold, to make a button available
         for (TowerShopModel towerShopModel: towerShopView.buttons){
             if (towerShopModel.tower != null){
                 if (towerShopModel.tower.cost <= player.gold){
@@ -312,12 +325,12 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
             }
         }
         
-        
+        // Time tracking
         spawnDelay += timer.getDelay()*20;
         delay += timer.getDelay()*20;
         repaint();
 
-
+        // Updates the selected tower view (the label in TowerShopView)
         if (towerShopView.towerModel == null && towerShopView.hasBeenAdded){
             towerShopView.remove(towerShopView.label);
             towerShopView.hasBeenAdded = false;
@@ -327,7 +340,8 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
+    public void mouseClicked(MouseEvent e) { // Enables the tower's location selection
+        // Calculates the coordinates of the top left of the selected cell
         Point clickPoint = e.getPoint();
         int cellWidth = getWidth() / gridWidth; 
         int cellHeight = getHeight() / gridHeight;
@@ -335,7 +349,7 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
         int cellX = Math.floorDiv(clickPoint.x, cellWidth) * cellWidth;
         int cellY = Math.floorDiv(clickPoint.y, cellHeight) * cellHeight;
         
-        if (towerShopView.towerModel != null && getCell(clickPoint) instanceof TowerCell){
+        if (towerShopView.towerModel != null && getCell(clickPoint) instanceof TowerCell){ // checks if a tower has been selected and if the selected cell is a TowerCell
             Image image = generateImage(towerShopView.towerModel.name);
             ((TowerCell) getCell(clickPoint)).tower = new TowerModel(towerShopView.towerModel,new ImageIcon(image));
             ((TowerCell) getCell(clickPoint)).coordinates = new Point (cellX, cellY);
@@ -344,7 +358,7 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
             towerShopView.towerModel = null;
             
         }
-        else{
+        else{ // Makes the label disappear when you don't click on a TowerCell
             towerShopView.towerModel = null;
         }
         
@@ -352,7 +366,6 @@ public class GridView extends JPanel implements ActionListener, MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        System.out.println(e.getPoint());
 
     }
 

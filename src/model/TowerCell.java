@@ -7,5 +7,5 @@ import java.awt.*;
  */
 public class TowerCell extends Cell {
     public TowerModel tower;
-    public Point coordinates;
+    public Point coordinates; // coordinates on the JPanel GridView
 }
