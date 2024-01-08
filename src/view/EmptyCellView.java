@@ -2,18 +2,16 @@ package src.view;
 
 import javax.swing.JPanel;
 
-import src.util.Palette;
-
 /**
  * A <code>JPanel</code> that displays an empty cell.
  */
-public class CellView extends JPanel {
+public class EmptyCellView extends JPanel {
 
     /**
      * Creates a new empty cell view. Sets the background color to
      * <code>Palette.BACKGROUND</code>
      */
-    public CellView() {
+    public EmptyCellView() {
         setBackground(Palette.BACKGROUND);
     }
 }

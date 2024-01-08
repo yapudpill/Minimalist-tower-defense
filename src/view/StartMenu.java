@@ -19,7 +19,7 @@ public class StartMenu extends JPanel {
      * Creates a new <code>StartMenu</code> that sends inputs to the specified
      * controller.
      *
-     * @param controller - The controller in charge of switching menus
+     * @param controller the controller in charge of switching menus
      */
     public StartMenu(MainControl controller) {
         setLayout(new GridBagLayout());
@@ -44,7 +44,7 @@ public class StartMenu extends JPanel {
         constraints.gridy = 1;
         add(new JButton("Levels"), constraints);
         constraints.gridy = 2;
-        add(new JButton("Score"), constraints);
+        add(new JButton("Shop"), constraints);
         constraints.gridy = 3;
         add(new JButton("Settings"), constraints);
 
@@ -57,7 +57,7 @@ public class StartMenu extends JPanel {
         add(marathon, constraints);
 
         constraints.gridy = 2;
-        add(new JButton("Shop"), constraints);
+        add(new JButton("Scores"), constraints);
 
         constraints.gridy = 3;
         JButton exit = new JButton("Exit");

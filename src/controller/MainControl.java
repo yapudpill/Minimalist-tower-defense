@@ -1,7 +1,6 @@
 package src.controller;
 
 import src.util.Difficulty;
-import src.view.GridView;
 import src.view.MainFrame;
 import src.view.MarathonMenu;
 import src.view.StartMenu;
@@ -16,10 +15,8 @@ public class MainControl {
     /**
      * Creates a new main controller for this project.
      *
-     * <p>
-     * Internally, it creates a new <code>MainFrame</code> and load a new
+     * <p> Internally, it creates a new <code>MainFrame</code> and load a new
      * <code>StartMenu</code> in it.
-     * </p>
      */
     public MainControl() {
         mainFrame = new MainFrame();
@@ -44,14 +41,23 @@ public class MainControl {
 
     /**
      * Creates a new <code>MarathonControl</code> object and load its
-     * <code>panel</code> in the <code>mainFrame</code> of this controller.
+     * <code>view</code> in the <code>mainFrame</code> of this controller.
      *
-     * @param diff - The difficulty of the game being loaded
-     * @param map  - The name of the file in which the map to load is saved
+     * @param diff     the difficulty of the game being loaded
+     * @param mapName  the name of the file in which the map to load is saved
      */
     public void loadMarathonGame(Difficulty diff, String mapName) {
         MarathonControl gameControl = new MarathonControl(this, diff, mapName);
-        mainFrame.loadMenu(gameControl.panel);
+        mainFrame.loadMenu(gameControl.view);
+        gameControl.startGame();
+    }
+
+    /**
+     * Loads a new <code>MarathonEnd</code> in the <code>mainFrame</code> of this
+     * controller.
+     */
+    public void loadMarathonEnd() {
+
     }
 
     /**

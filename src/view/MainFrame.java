@@ -31,7 +31,7 @@ public class MainFrame extends JFrame {
     /**
      * Swap the <code>contentPane</code> of this frame to the specified menu.
      *
-     * @param menu - The menu that will be displayed
+     * @param menu the menu that will be displayed
      */
     public void loadMenu(JPanel menu) {
         EventQueue.invokeLater(() -> {

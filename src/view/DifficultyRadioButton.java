@@ -15,8 +15,8 @@ public class DifficultyRadioButton extends JRadioButton {
      * Creates a new <code>DifficultyRadioButton</code> in the specified group
      * that encapsulates the specified difficulty.
      *
-     * @param diff  - The difficulty that this button represents
-     * @param group - The group in which this button will be placed
+     * @param diff  the difficulty that this button represents
+     * @param group the group in which this button will be placed
      */
     public DifficultyRadioButton(Difficulty diff, ButtonGroup group) {
         setModel(new DifficultyButtonModel(diff, group));
@@ -38,8 +38,8 @@ public class DifficultyRadioButton extends JRadioButton {
          * Creates a new <code>DifficultyButtonModel</code> in the specified group
          * that encapsulates the specified difficulty
          *
-         * @param diff  - The difficulty that this button represents
-         * @param group - The group in which this button will be placed
+         * @param diff  the difficulty that this button represents
+         * @param group the group in which this button will be placed
          */
         public DifficultyButtonModel(Difficulty diff, ButtonGroup group) {
             setGroup(group);
