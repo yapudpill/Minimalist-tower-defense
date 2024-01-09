@@ -14,6 +14,6 @@ public class TankEnemy extends Enemy {
      * @param initialDir the direction of this enemy when spawned
      */
     public TankEnemy(Coordinate initialPos, Direction initialDir) {
-        super(1, 5, 5, initialPos, initialDir);
+        super(0.8, 5, 5, initialPos, initialDir);
     }
 }

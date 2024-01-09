@@ -18,6 +18,16 @@ public class Coordinate {
     }
 
     /**
+     * Creates a new <code>Coordinate</code> by copying the values from a
+     * given one.
+     *
+     * @param cds the <code>Coordinate</code> to copy
+     */
+    public Coordinate(Coordinate cds) {
+        this(cds.x, cds.y);
+    }
+
+    /**
      * Sets <code>x</code> and <code>y</code> to the specified values.
      *
      * @param x the new x coordinate

@@ -14,6 +14,6 @@ public class BasicEnemy extends Enemy {
      * @param initialDir the direction of this enemy when spawned
      */
     public BasicEnemy(Coordinate initialPos, Direction initialDir) {
-        super(1.3, 3, 5, initialPos, initialDir);
+        super(1.1, 3, 5, initialPos, initialDir);
     }
 }

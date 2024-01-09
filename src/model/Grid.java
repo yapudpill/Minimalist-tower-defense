@@ -112,7 +112,7 @@ public class Grid {
         for (int i = 0; i < nb; i++) {
             Coordinate spawn = randomSpawn();
             Direction direction = getDirection(spawn);
-            toSpawn.add(constr.apply(spawn, direction));
+            toSpawn.add(constr.apply(new Coordinate(spawn), direction));
         }
     }
 
@@ -138,7 +138,7 @@ public class Grid {
     public boolean updateEnemiesList(int frameRate) {
         for (Iterator<Enemy> it = enemies.iterator(); it.hasNext();) {
             Enemy e = it.next();
-            if (!e.isAlive() || e.direction == END_OF_PATH) {
+            if (!e.isOnGrid()) {
                 it.remove();
             }
         }

@@ -47,9 +47,9 @@ public class MarathonModel {
 
         spawnRef = new int[2];
         switch (diff) {
-            case EASY:   waveInterval = 15000; spawnRef[0] = 50; spawnRef[1] = 75; break;
-            case MEDIUM: waveInterval = 12000; spawnRef[0] = 45; spawnRef[1] = 75; break;
-            default:     waveInterval = 10000; spawnRef[0] = 35; spawnRef[1] = 60; break;
+            case EASY:   waveInterval = 13000; spawnRef[0] = 50; spawnRef[1] = 75; break;
+            case MEDIUM: waveInterval = 10000; spawnRef[0] = 45; spawnRef[1] = 75; break;
+            default:     waveInterval = 8000;  spawnRef[0] = 35; spawnRef[1] = 60; break;
         }
         nextWaveTime = 5000; // Wait 5 seconds before the first wave
         life = 3;
@@ -135,7 +135,7 @@ public class MarathonModel {
      */
     private void towerShoot(int frameRate) {
         for (TowerCell towerCell : grid.towerCells) {
-            gold += towerCell.shoot(frameRate, grid.enemies);
+            gold += towerCell.update(frameRate, grid.enemies);
         }
     }
 

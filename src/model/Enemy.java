@@ -1,5 +1,7 @@
 package src.model;
 
+import static src.util.Direction.END_OF_PATH;
+
 import src.util.Coordinate;
 import src.util.Direction;
 
@@ -30,7 +32,7 @@ public abstract class Enemy {
     public Enemy(double speed, int health, int reward, Coordinate initialPos, Direction initialDir) {
         this.speed = speed;
         this.health = health;
-        this.pos = new Coordinate(initialPos.x, initialPos.y);
+        this.pos = initialPos;
         this.direction = initialDir;
         this.reward = reward;
     }
@@ -41,7 +43,7 @@ public abstract class Enemy {
      * @param frameRate time since last update, in milliseconds
      */
     public void update(int frameRate) {
-        double translation = speed * (frameRate / 1000.);
+        double translation = frameRate * speed / 1000;
         switch (direction) {
             case UP:    pos.translate(0, -translation); break;
             case LEFT:  pos.translate(-translation, 0); break;
@@ -77,5 +79,9 @@ public abstract class Enemy {
      */
     public boolean isAlive() {
         return health > 0;
+    }
+
+    public boolean isOnGrid() {
+        return isAlive() && direction != END_OF_PATH;
     }
 }

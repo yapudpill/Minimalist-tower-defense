@@ -9,13 +9,18 @@ import java.awt.GridLayout;
 import javax.swing.JPanel;
 
 import src.controller.MarathonControl;
-import src.model.BasicEnemy;
-import src.model.Cell;
-import src.model.Enemy;
-import src.model.FastEnemy;
 import src.model.Grid;
-import src.model.PathCell;
+import src.model.Enemy;
+import src.model.BasicEnemy;
+import src.model.FastEnemy;
 import src.model.TankEnemy;
+import src.model.Tower;
+import src.model.BasicTower;
+import src.model.CanonTower;
+import src.model.SniperTower;
+import src.model.Bullet;
+import src.model.Cell;
+import src.model.PathCell;
 import src.model.TowerCell;
 import src.util.Direction;
 
@@ -57,8 +62,11 @@ public class GridView extends JPanel {
     protected void paintChildren(Graphics g) {
         super.paintChildren(g);
 
-        // Paint enemies
-        Graphics2D g2D = (Graphics2D) g.create();
+        paintEnemies((Graphics2D) g.create());
+        paintBullets((Graphics2D) g.create());
+    }
+
+    private void paintEnemies(Graphics2D g2D) {
         int cellSize = getWidth() / grid.width;
         g2D.translate(cellSize/2, cellSize/2); // The model coordinates are shifted by half a cell
 
@@ -75,6 +83,29 @@ public class GridView extends JPanel {
             } else if (enemy instanceof FastEnemy) {
                 g2D.setColor(Palette.FAST_ENEMY);
                 fillTriangle(g2D, gridx, gridy, cellSize/2, enemy.direction);
+            }
+        }
+    }
+
+    private void paintBullets(Graphics2D g2D) {
+        int cellSize = getWidth() / grid.width;
+        g2D.translate(cellSize/2, cellSize/2); // The model coordinates are shifted by half a cell
+        int diameter = cellSize / 8;
+
+        for (TowerCell cell : grid.towerCells) {
+            Tower t = cell.getTower();
+            if (t instanceof BasicTower) {
+                g2D.setColor(Palette.BASIC_TOWER_OUTER);
+            } else if (t instanceof CanonTower) {
+                g2D.setColor(Palette.CANON_TOWER_OUTER);
+            } else if (t instanceof SniperTower) {
+                g2D.setColor(Palette.SNIPER_TOWER_OUTER);
+            }
+
+            for (Bullet bullet : cell.bullets) {
+                int gridx = (int) (bullet.pos.x * cellSize);
+                int gridy = (int) (bullet.pos.y * cellSize);
+                g2D.fillOval(gridx - diameter / 2, gridy - diameter / 2, diameter, diameter);
             }
         }
     }

@@ -1,6 +1,7 @@
 package src.model;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import src.util.Coordinate;
 
@@ -10,6 +11,7 @@ import src.util.Coordinate;
  */
 public class TowerCell extends Cell {
     public final Coordinate pos;
+    public final ArrayList<Bullet> bullets;
     private Tower tower;
     private Enemy target;
     private int nextShootTime;
@@ -21,9 +23,18 @@ public class TowerCell extends Cell {
      */
     public TowerCell(Coordinate pos) {
         this.pos = pos;
+        bullets = new ArrayList<>();
         tower = null;
         target = null;
         nextShootTime = 0;
+    }
+
+    public int update(int frameRate, ArrayList<Enemy> enemies) {
+        if (tower != null) {
+            shoot(frameRate, enemies);
+            return updateBullets(frameRate);
+        }
+        return 0;
     }
 
     /**
@@ -34,14 +45,9 @@ public class TowerCell extends Cell {
      * @param enemies   the list of enemies on the grid
      * @return the amount of gold earned with this shot
      */
-    public int shoot(int frameRate, List<Enemy> enemies) {
-        if (tower == null) {
-            // If no tower is set, do nothing
-            return 0;
-        }
-
+    public void shoot(int frameRate, ArrayList<Enemy> enemies) {
         // Choose a target
-        if (target == null || !target.isAlive() || !inRange(target)) {
+        if (target == null || !target.isOnGrid() || !inRange(target)) {
             for (Enemy enemy : enemies) {
                 if (inRange(enemy) && enemy.isAlive()) {
                     target = enemy;
@@ -54,12 +60,8 @@ public class TowerCell extends Cell {
         nextShootTime -= frameRate;
         if (nextShootTime <= 0 && target != null && target.isAlive()) {
             nextShootTime = tower.cooldown;
-            target.health -= tower.damage;
-            if (!target.isAlive()) {
-                return target.reward;
-            }
+            bullets.add(new Bullet(4.5, new Coordinate(pos), target, tower.damage));
         }
-        return 0;
     }
 
     /**
@@ -68,6 +70,21 @@ public class TowerCell extends Cell {
      */
     private boolean inRange(Enemy enemy) {
         return this.pos.distance(enemy.pos) <= tower.range;
+    }
+
+    private int updateBullets(int frameRate) {
+        int gold = 0;
+        for (Iterator<Bullet> it = bullets.iterator(); it.hasNext();) {
+            Bullet b = it.next();
+            int reward = b.update(frameRate);
+            if (reward != 0) {
+                it.remove();
+            }
+            if (reward > 0) {
+                gold += reward;
+            }
+        }
+        return gold;
     }
 
     /**
