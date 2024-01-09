@@ -21,6 +21,7 @@ import src.util.Coordinate;
  */
 public class TowerCellView extends JPanel {
     private final TowerCell cell;
+    private final int x, y;
 
     /**
      * Creates a new <code>TowerCellView</code> that displays the specified
@@ -33,14 +34,17 @@ public class TowerCellView extends JPanel {
      *
      * @param cell the <code>TowerCell</code> object to display
      */
-    public TowerCellView(TowerCell cell, MarathonControl control) {
+    public TowerCellView(TowerCell cell, int x, int y, MarathonControl control) {
         this.cell = cell;
+        this.x = x;
+        this.y = y;
+
         setBackground(Palette.TOWER_CELL);
         setBorder(new LineBorder(Palette.BACKGROUND, 5));
         addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                control.addTower(cell.pos);
+                control.addTower(new Coordinate(x, y));
             }
 
             @Override public void mouseEntered(MouseEvent e) {}
@@ -55,11 +59,11 @@ public class TowerCellView extends JPanel {
         super.paintComponent(g);
 
         Graphics2D g2D = (Graphics2D) g.create();
+        Tower tower = cell.tower;
 
-        Coordinate targetPos = cell.getTargetPos();
-        double angle = targetPos == null ? 0 : Math.atan2(targetPos.y - cell.pos.y, targetPos.x - cell.pos.x);
+        Coordinate targetPos = (tower == null ? null : tower.getTargetPos());
+        double angle = (targetPos == null ? 0 : Math.atan2(targetPos.y - y, targetPos.x - x));
 
-        Tower tower = cell.getTower();
         if (tower instanceof BasicTower) {
             drawBasic(g2D, angle);
         } else if (tower instanceof CanonTower) {

@@ -1,7 +1,7 @@
 package src.view;
 
 import java.awt.Font;
-import java.util.function.Supplier;
+import java.util.function.Function;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JToggleButton;
@@ -10,6 +10,7 @@ import src.model.BasicTower;
 import src.model.CanonTower;
 import src.model.SniperTower;
 import src.model.Tower;
+import src.util.Coordinate;
 
 /**
  * A modified type of <code>JToggleButton</code> that encapsulates a tower
@@ -24,12 +25,12 @@ public class TowerToggleButton extends JToggleButton {
      * @param constr the constructor that this button represents
      * @param group  the group in which this button will be placed
      */
-    public TowerToggleButton(Supplier<Tower> constr, ButtonGroup group) {
+    public TowerToggleButton(Function<Coordinate, Tower> constr, ButtonGroup group) {
         setModel(new TowerButtonModel(constr, group));
         setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 25));
         setOpaque(true);
 
-        Tower tower = constr.get();
+        Tower tower = constr.apply(null);
         String name = "";
         if (tower instanceof BasicTower) {
             setBackground(Palette.BASIC_TOWER_INNER);
@@ -49,7 +50,7 @@ public class TowerToggleButton extends JToggleButton {
      * tower constructor.
      */
     public static class TowerButtonModel extends ToggleButtonModel {
-        public final Supplier<Tower> constr;
+        public final Function<Coordinate, Tower> constr;
 
         /**
          * Creates a new <code>TowerButtonModel</code> in the specified group
@@ -58,7 +59,7 @@ public class TowerToggleButton extends JToggleButton {
          * @param constr the constructor that this button represents
          * @param group  the group in which this button will be placed
          */
-        public TowerButtonModel(Supplier<Tower> constr, ButtonGroup group) {
+        public TowerButtonModel(Function<Coordinate, Tower> constr, ButtonGroup group) {
             setGroup(group);
             this.constr = constr;
         }

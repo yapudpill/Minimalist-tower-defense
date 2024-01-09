@@ -13,7 +13,7 @@ public class FastEnemy extends Enemy {
      * @param initialPos the position of this enemy when spawned
      * @param initialDir the direction of this enemy when spawned
      */
-    public FastEnemy(Coordinate initialPos, Direction initialDir) {
-        super(1.5, 3, 5, initialPos, initialDir);
+    public FastEnemy(Coordinate initialPos, Direction initialDir, int remainingCell) {
+        super(1.5, 3, 5, initialPos, initialDir, remainingCell);
     }
 }

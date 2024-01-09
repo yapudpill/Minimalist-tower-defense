@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Random;
-import java.util.function.BiFunction;
 
 import src.util.Coordinate;
 import src.util.Direction;
@@ -86,7 +85,7 @@ public class Grid {
                         case 'x': gridTmp[y][x] = new PathCell(END_OF_PATH); break;
 
                         case 'T':
-                            gridTmp[y][x] = new TowerCell(new Coordinate(x, y));
+                            gridTmp[y][x] = new TowerCell();
                             towerCells.add((TowerCell) gridTmp[y][x]);
                             break;
                     }
@@ -108,11 +107,11 @@ public class Grid {
      * @param nb     the number of enemies to spawn
      * @param constr the enemy constructor
      */
-    public void spawnEnemies(int nb, BiFunction<Coordinate, Direction, Enemy> constr) {
+    public void spawnEnemies(int nb, TriFunction<Coordinate, Direction, Integer,Enemy> constr) {
         for (int i = 0; i < nb; i++) {
             Coordinate spawn = randomSpawn();
             Direction direction = getDirection(spawn);
-            toSpawn.add(constr.apply(new Coordinate(spawn), direction));
+            toSpawn.add(constr.apply(new Coordinate(spawn), direction, distanceToEnd(spawn)));
         }
     }
 
@@ -123,6 +122,23 @@ public class Grid {
      */
     private Coordinate randomSpawn() {
         return spawnPoints.get(rnd.nextInt(spawnPoints.size()));
+    }
+
+    private int distanceToEnd(Coordinate cds) {
+        int dist = 0;
+        int x = (int) cds.x;
+        int y = (int) cds.y;
+        for (Direction d = getDirection(x, y); d != END_OF_PATH; d = getDirection(x, y)) {
+            switch (d) {
+                case DOWN:   y++; break;
+                case LEFT:   x--; break;
+                case UP:     y--; break;
+                case RIGHT:  x++; break;
+                case END_OF_PATH: break;
+            }
+            dist++;
+        }
+        return dist;
     }
 
     /**
@@ -165,7 +181,15 @@ public class Grid {
      * @return the cell located at the specified coordinates
      */
     public Cell getCell(Coordinate cds) {
-        return grid[(int) cds.y][(int) cds.x];
+        return getCell((int) cds.x, (int) cds.y);
+    }
+
+    public Direction getDirection(int x, int y) {
+        Cell c = getCell(x, y);
+        if (c instanceof PathCell) {
+            return ((PathCell) c).direction;
+        }
+        return null;
     }
 
     /**
@@ -174,11 +198,7 @@ public class Grid {
      *         it is a <code>PathCell</code>, <code>null</code> otherwise
      */
     public Direction getDirection(Coordinate cds) {
-        Cell c = getCell(cds);
-        if (c instanceof PathCell) {
-            return ((PathCell) c).direction;
-        }
-        return null;
+        return getDirection((int) cds.x, (int) cds.y);
     }
 
     /**

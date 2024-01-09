@@ -48,6 +48,6 @@ public class Bullet {
     }
 
     public boolean hasNoTarget() {
-        return !target.isAlive() || target.direction == Direction.END_OF_PATH;
+        return !target.isAlive() || target.getDirection() == Direction.END_OF_PATH;
     }
 }

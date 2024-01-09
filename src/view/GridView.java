@@ -46,7 +46,7 @@ public class GridView extends JPanel {
             for (int x = 0; x < grid.width; x++) {
                 Cell c = grid.getCell(x, y);
                 if (c instanceof TowerCell) {
-                    add(new TowerCellView((TowerCell) c, control));
+                    add(new TowerCellView((TowerCell) c, x, y, control));
                 } else if (c instanceof PathCell) {
                     add(new PathCellView((PathCell) c, grid.isSpawn(x, y)));
                 } else {
@@ -82,7 +82,7 @@ public class GridView extends JPanel {
                 g2D.fillRect(gridx - cellSize/4, gridy - cellSize/4, cellSize/2, cellSize/2);
             } else if (enemy instanceof FastEnemy) {
                 g2D.setColor(Palette.FAST_ENEMY);
-                fillTriangle(g2D, gridx, gridy, cellSize/2, enemy.direction);
+                fillTriangle(g2D, gridx, gridy, cellSize/2, enemy.getDirection());
             }
         }
     }
@@ -93,8 +93,10 @@ public class GridView extends JPanel {
         int diameter = cellSize / 8;
 
         for (TowerCell cell : grid.towerCells) {
-            Tower t = cell.getTower();
-            if (t instanceof BasicTower) {
+            Tower t = cell.tower;
+            if (t == null) {
+                continue;
+            } else if (t instanceof BasicTower) {
                 g2D.setColor(Palette.BASIC_TOWER_OUTER);
             } else if (t instanceof CanonTower) {
                 g2D.setColor(Palette.CANON_TOWER_OUTER);
@@ -102,7 +104,7 @@ public class GridView extends JPanel {
                 g2D.setColor(Palette.SNIPER_TOWER_OUTER);
             }
 
-            for (Bullet bullet : cell.bullets) {
+            for (Bullet bullet : t.bullets) {
                 int gridx = (int) (bullet.pos.x * cellSize);
                 int gridy = (int) (bullet.pos.y * cellSize);
                 g2D.fillOval(gridx - diameter / 2, gridy - diameter / 2, diameter, diameter);

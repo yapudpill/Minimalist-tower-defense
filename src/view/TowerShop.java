@@ -1,6 +1,7 @@
 package src.view;
 
 import java.awt.FlowLayout;
+import java.util.function.Function;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
@@ -9,6 +10,7 @@ import src.model.BasicTower;
 import src.model.CanonTower;
 import src.model.SniperTower;
 import src.model.Tower;
+import src.util.Coordinate;
 
 /**
  * A <code>JPanel</code> that contains the tower selection buttons.
@@ -32,11 +34,11 @@ public class TowerShop extends JPanel {
     /**
      * @return a <code>Tower</code> instance corresponding to the selected button
      */
-    public Tower getSelection() {
+    public Function<Coordinate, Tower> getSelection() {
         var model = (TowerToggleButton.TowerButtonModel) group.getSelection();
         if (model == null) {
             return null;
         }
-        return model.constr.get();
+        return model.constr;
     }
 }

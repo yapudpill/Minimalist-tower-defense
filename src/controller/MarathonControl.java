@@ -4,6 +4,7 @@ import static src.util.Status.PLAYING;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.function.Function;
 
 import src.model.MarathonModel;
 import src.model.Tower;
@@ -79,9 +80,9 @@ public class MarathonControl {
      * @param pos the position where to add a tower
      */
     public void addTower(Coordinate pos) {
-        Tower tower = view.shop.getSelection();
-        if (tower != null) {
-            model.addTower(pos, tower);
+        Function<Coordinate, Tower> constr = view.shop.getSelection();
+        if (constr != null) {
+            model.addTower(constr.apply(pos));
         }
     }
 }

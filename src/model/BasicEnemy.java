@@ -13,7 +13,7 @@ public class BasicEnemy extends Enemy {
      * @param initialPos the position of this enemy when spawned
      * @param initialDir the direction of this enemy when spawned
      */
-    public BasicEnemy(Coordinate initialPos, Direction initialDir) {
-        super(1.1, 3, 5, initialPos, initialDir);
+    public BasicEnemy(Coordinate initialPos, Direction initialDir, int remainingCell) {
+        super(1.1, 3, 5, initialPos, initialDir, remainingCell);
     }
 }

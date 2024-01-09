@@ -9,7 +9,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Random;
 
-import src.util.Coordinate;
 import src.util.Difficulty;
 import src.util.Status;
 
@@ -92,14 +91,14 @@ public class MarathonModel {
             nextWaveTime = waveInterval;
             waveCount++;
 
-            grid.spawnEnemies(waveCount, (cds, dir) -> {
+            grid.spawnEnemies(waveCount, (cds, dir, remain) -> {
                 int random = rnd.nextInt(100);
                 if (random < spawnRef[0]) {
-                    return new BasicEnemy(cds, dir);
+                    return new BasicEnemy(cds, dir, remain);
                 } else if (random < spawnRef[1]) {
-                    return new FastEnemy(cds, dir);
+                    return new FastEnemy(cds, dir, remain);
                 } else {
-                    return new TankEnemy(cds, dir);
+                    return new TankEnemy(cds, dir, remain);
                 }
             });
         }
@@ -115,10 +114,10 @@ public class MarathonModel {
     private void updateEnemies(int frameRate) {
         for (Enemy enemy : grid.enemies) {
             enemy.update(frameRate);
-            if (enemy.needToTurn()) {
-                enemy.direction = grid.getDirection(enemy.pos);
+            if (enemy.changedCell()) {
+                enemy.setDirection(grid.getDirection(enemy.pos));
             }
-            if (enemy.direction == END_OF_PATH) {
+            if (enemy.getDirection() == END_OF_PATH) {
                 life--;
                 if (life == 0) {
                     status = DEFEAT;
@@ -147,12 +146,12 @@ public class MarathonModel {
      * @param pos   the position where to place the tower
      * @param tower the tower to add to the grid
      */
-    public void addTower(Coordinate pos, Tower tower) {
-        if (gold >= tower.cost && grid.getCell(pos) instanceof TowerCell) {
-            TowerCell tc = (TowerCell) grid.getCell(pos);
-            Tower existingTower = tc.getTower();
+    public void addTower(Tower tower) {
+        if (gold >= tower.cost && grid.getCell(tower.pos) instanceof TowerCell) {
+            TowerCell tc = (TowerCell) grid.getCell(tower.pos);
+            Tower existingTower = tc.tower;
             if (existingTower == null || existingTower.getClass() != tower.getClass()) {
-                tc.setTower(tower);
+                tc.tower = tower;
                 gold -= tower.cost;
             }
         }

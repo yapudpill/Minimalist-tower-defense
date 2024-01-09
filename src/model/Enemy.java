@@ -14,11 +14,13 @@ public abstract class Enemy {
     /**
      * Speed of this enemy, in cells per second
      */
-    public final double speed;
     public final int reward;
     public final Coordinate pos;
     public int health;
-    public Direction direction;
+    private final double speed;
+    private Direction direction;
+    private boolean changedCell;
+    private int remainingCell;
 
     /**
      * Creates a new <code>Enemy</code> with the specified statistics.
@@ -29,12 +31,14 @@ public abstract class Enemy {
      * @param initialPos the position of this enemy when spawned
      * @param initialDir the direction of this enemy when spawned
      */
-    public Enemy(double speed, int health, int reward, Coordinate initialPos, Direction initialDir) {
+    public Enemy(double speed, int health, int reward, Coordinate initialPos, Direction initialDir, int remainingCell) {
         this.speed = speed;
         this.health = health;
         this.pos = initialPos;
         this.direction = initialDir;
         this.reward = reward;
+        this.changedCell = false;
+        this.remainingCell = remainingCell;
     }
 
     /**
@@ -43,34 +47,19 @@ public abstract class Enemy {
      * @param frameRate time since last update, in milliseconds
      */
     public void update(int frameRate) {
-        double translation = frameRate * speed / 1000;
+        Coordinate old = new Coordinate(pos);
+        double step = frameRate * speed / 1000;
         switch (direction) {
-            case UP:    pos.translate(0, -translation); break;
-            case LEFT:  pos.translate(-translation, 0); break;
-            case DOWN:  pos.translate(0, translation); break;
-            case RIGHT: pos.translate(translation, 0); break;
+            case UP:    pos.translate(0, -step); break;
+            case LEFT:  pos.translate(-step, 0); break;
+            case DOWN:  pos.translate(0, step); break;
+            case RIGHT: pos.translate(step, 0); break;
             default:    break;
         }
-    }
-
-    /**
-     * Determines if this enemy needs to turn. It is determined by looking if
-     * this enemy crossed an intersection.
-     *
-     * @return whether or not this enemy needs to turn
-     */
-    public boolean needToTurn() {
-        switch (direction) {
-            case UP:    return decimal(pos.y) >= 0.5;
-            case LEFT:  return decimal(pos.x) >= 0.5;
-            case DOWN:  return decimal(pos.y) <= 0.5;
-            case RIGHT: return decimal(pos.x) <= 0.5;
-            default:    return false;
+        changedCell = (int) old.x != (int) pos.x || (int) old.y != (int) pos.y;
+        if (changedCell) {
+            remainingCell--;
         }
-    }
-
-    private static double decimal(double n) {
-        return Math.abs(n - Math.abs(n));
     }
 
     /**
@@ -83,5 +72,22 @@ public abstract class Enemy {
 
     public boolean isOnGrid() {
         return isAlive() && direction != END_OF_PATH;
+    }
+
+    public boolean changedCell() {
+        return changedCell;
+    }
+
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+        changedCell = false;
+    }
+
+    public int getRemainingCell() {
+        return remainingCell;
     }
 }
