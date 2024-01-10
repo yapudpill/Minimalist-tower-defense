@@ -8,7 +8,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-import src.controller.MarathonControl;
+import src.controller.GameControl;
 import src.model.BasicTower;
 import src.model.CanonTower;
 import src.model.SniperTower;
@@ -34,7 +34,7 @@ public class TowerCellView extends JPanel {
      *
      * @param cell the <code>TowerCell</code> object to display
      */
-    public TowerCellView(TowerCell cell, int x, int y, MarathonControl control) {
+    public TowerCellView(TowerCell cell, int x, int y, GameControl control) {
         this.cell = cell;
         this.x = x;
         this.y = y;

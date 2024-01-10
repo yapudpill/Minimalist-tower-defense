@@ -44,6 +44,7 @@ public class StartMenu extends JPanel {
         constraints.gridy = 1;
         JButton levels = new JButton("Levels");
         levels.setFont(Palette.PLAIN_SANS);
+        levels.addActionListener(e -> controller.loadLvlMenu());
         add(levels, constraints);
 
         constraints.gridy = 2;

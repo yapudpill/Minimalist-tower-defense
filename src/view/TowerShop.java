@@ -7,7 +7,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import src.controller.MarathonControl;
+import src.controller.GameControl;
 import src.model.BasicTower;
 import src.model.CanonTower;
 import src.model.SniperTower;
@@ -24,7 +24,7 @@ public class TowerShop extends JPanel {
      * Creates a new <code>TowerShop</code> and add in it one
      * <code>TowerToggleButton</code> per type of tower.
      */
-    public TowerShop(MarathonControl control) {
+    public TowerShop(GameControl control) {
         group = new ButtonGroup();
         setLayout(new WrapLayout(FlowLayout.CENTER, 60, 10));
 

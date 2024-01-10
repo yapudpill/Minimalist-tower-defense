@@ -3,24 +3,21 @@ package src.model;
 import static src.util.Direction.END_OF_PATH;
 import static src.util.Status.DEFEAT;
 import static src.util.Status.PLAYING;
+import static src.util.Status.VICTORY;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.Arrays;
+import java.util.Collections;
 
 import src.util.Coordinate;
-import src.util.Difficulty;
 import src.util.Direction;
 import src.util.Status;
 
-/**
- * The model of a marathon game. It contains all the information about a game
- * played in marathon mode.
- */
-public class MarathonModel {
-    private static final Random rnd = new Random();
+public class LvlModel {
 
     /**
      * An array of two integers.
@@ -30,93 +27,83 @@ public class MarathonModel {
      * we spawn a FastEnemy. And above the second, we spawn a TankEnemy.
      */
     public final Grid grid;
+    public final int nbWaves, lvl;
     public final GameStats stats;
-    private final int[] spawnRef;
+    private final ArrayList<int[]> scenario;
     private final int waveInterval;
     private int life, gold, nextWaveTime;
     private boolean spawning;
     public Status status;
 
-    /**
-     * Creates a new marathon game model with the specified map and difficulty.
-     *
-     * @param diff the difficulty of the game being loaded
-     * @param map  the name of the file in which the map to load is saved
-     */
-    public MarathonModel(Difficulty diff, String mapName) {
+    public LvlModel(int lvl, String mapName) {
+        this.lvl = lvl;
+
         InputStream in = getClass().getResourceAsStream("/src/resources/" + mapName);
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         grid = new Grid(reader);
 
-        spawnRef = new int[2];
-        switch (diff) {
-            case EASY:   waveInterval = 12000; spawnRef[0] = 50; spawnRef[1] = 75; break;
-            case MEDIUM: waveInterval = 10000; spawnRef[0] = 45; spawnRef[1] = 75; break;
-            default:     waveInterval = 8000;  spawnRef[0] = 35; spawnRef[1] = 60; break;
+        scenario = new ArrayList<>();
+        int totalWaveTmp = 0;
+        int waveIntervalTmp = 0;
+        try {
+            int[] scenarioHeader = Arrays.stream(reader.readLine().split(" "))
+                                         .mapToInt(Integer::valueOf)
+                                         .toArray();
+            totalWaveTmp = scenarioHeader[0];
+            waveIntervalTmp = scenarioHeader[1];
+            for (int i = 0; i < totalWaveTmp; i++) {
+                scenario.add(Arrays.stream(reader.readLine().split(" "))
+                                   .mapToInt(Integer::valueOf)
+                                   .toArray());
+            }
+        } catch (IOException e) {
+            System.exit(1);
         }
+        nbWaves = totalWaveTmp;
+        waveInterval = waveIntervalTmp;
+
         stats = new GameStats();
         nextWaveTime = 3000; // Wait 3 seconds before the first wave
         life = 3;
-        gold = 100;
+        gold = 120;
         spawning = false;
         status = PLAYING;
     }
 
-    /**
-     * Updates the whole model. To do so, the following operations are done in
-     * order:
-     *
-     * <p>- If no more enemies are to be spawn, try to spawn new ones
-     * <p>- Update the position of all the existing enemies
-     * <p>- Make the tower shoot
-     * <p>- Clear the enemy list to remove any enemy that is dead or reached the
-     * end of path
-     *
-     * @param frameRate the time since the last update, in milliseconds
-     */
     public void update(int frameRate) {
-        if (!spawning) {
+        if (!spawning && stats.waveCount < nbWaves) {
             spawnEnemies(frameRate);
         }
         updateEnemies(frameRate);
         towerShoot(frameRate);
         spawning = grid.updateEnemiesList(frameRate, stats);
-    }
-
-    /**
-     * Keeps track of the cooldown before the next wave. When it reaches 0, spawns a
-     * wave.
-     *
-     * @param frameRate the time since the last update, in milliseconds
-     */
-    private void spawnEnemies(int frameRate) {
-        nextWaveTime -= frameRate;
-        if (nextWaveTime <= 0) {
-            nextWaveTime = waveInterval;
-            stats.waveCount++;
-
-            var constructors = new ArrayList<TriFunction<Coordinate, Direction, Integer, Enemy>>();
-            for (int i = 0; i < stats.waveCount; i++) {
-                int random = rnd.nextInt(100);
-                if (random < spawnRef[0]) {
-                    constructors.add(BasicEnemy::new);
-                } else if (random < spawnRef[1]) {
-                    constructors.add(FastEnemy::new);
-                } else {
-                    constructors.add(TankEnemy::new);
-                }
-            }
-            grid.spawnEnemies(constructors);
+        if (stats.waveCount == nbWaves && grid.enemies.isEmpty()) {
+            status = VICTORY;
         }
     }
 
-    /**
-     * Updates the position of every enemy on the grid and make them turn if
-     * necessary. If an enemy reaches the end of the path, <code>life</code> is
-     * decremented by 1.
-     *
-     * @param frameRate the time since the last update, in milliseconds
-     */
+    private void spawnEnemies(int frameRate) {
+        nextWaveTime -= frameRate;
+        if (nextWaveTime <= 0) {
+            int[] toSpawn = scenario.get(stats.waveCount);
+            var constructors = new ArrayList<TriFunction<Coordinate, Direction, Integer, Enemy>>();
+            for (int i = 0; i < toSpawn[0]; i++) {
+                constructors.add(BasicEnemy::new);
+            }
+            for (int i = 0; i < toSpawn[1]; i++) {
+                constructors.add(FastEnemy::new);
+            }
+            for (int i = 0; i < toSpawn[2]; i++) {
+                constructors.add(TankEnemy::new);
+            }
+            Collections.shuffle(constructors);
+            grid.spawnEnemies(constructors);
+
+            nextWaveTime = waveInterval;
+            stats.waveCount++;
+        }
+    }
+
     private void updateEnemies(int frameRate) {
         for (Enemy enemy : grid.enemies) {
             enemy.update(frameRate);
@@ -133,11 +120,6 @@ public class MarathonModel {
         }
     }
 
-    /**
-     * Make every tower on the grid try to shoot. Collects the earned gold.
-     *
-     * @param frameRate the time since the last update, in milliseconds
-     */
     private void towerShoot(int frameRate) {
         for (TowerCell towerCell : grid.towerCells) {
             int reward = towerCell.update(frameRate, grid.enemies);
@@ -146,14 +128,6 @@ public class MarathonModel {
         }
     }
 
-    /**
-     * Adds the specified tower to the grid at the specified location. This
-     * operation if done if the player has enough gold and if the specified cell
-     * does not already contains the same tower.
-     *
-     * @param pos   the position where to place the tower
-     * @param tower the tower to add to the grid
-     */
     public void addTower(Tower tower) {
         if (gold >= tower.cost && grid.getCell(tower.pos) instanceof TowerCell) {
             TowerCell tc = (TowerCell) grid.getCell(tower.pos);

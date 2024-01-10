@@ -1,10 +1,14 @@
 package src.controller;
 
 import static src.util.Status.EXIT;
+import static src.util.Status.VICTORY;
 
 import src.model.GameStats;
+import src.model.GlobalInfos;
 import src.util.Difficulty;
 import src.util.Status;
+import src.view.LvlEnd;
+import src.view.LvlMenu;
 import src.view.MainFrame;
 import src.view.MarathonEnd;
 import src.view.MarathonMenu;
@@ -15,6 +19,7 @@ import src.view.StartMenu;
  * main frame and swapping menus.
  */
 public class MainControl {
+    private final GlobalInfos infos;
     private final MainFrame mainFrame;
 
     /**
@@ -24,6 +29,7 @@ public class MainControl {
      * <code>StartMenu</code> in it.
      */
     public MainControl() {
+        infos = new GlobalInfos();
         mainFrame = new MainFrame();
         loadStartMenu();
     }
@@ -34,6 +40,14 @@ public class MainControl {
      */
     public void loadStartMenu() {
         mainFrame.loadMenu(new StartMenu(this));
+    }
+
+    /**
+     * Closes the main window of this controller.
+     */
+    public void closeWindow() {
+        mainFrame.dispose();
+        System.exit(0);
     }
 
     /**
@@ -61,19 +75,39 @@ public class MainControl {
      * Loads a new <code>MarathonEnd</code> in the <code>mainFrame</code> of this
      * controller.
      */
-    public void loadMarathonEnd(int waveCount,Status status, GameStats stats) {
+    public void loadMarathonEnd(Status status, GameStats stats) {
         if (status == EXIT) {
             loadMarathonMenu();
         } else {
-            mainFrame.loadMenu(new MarathonEnd(this, waveCount, stats));
+            mainFrame.loadMenu(new MarathonEnd(this, stats));
         }
     }
 
-    /**
-     * Closes the main window of this controller.
-     */
-    public void closeWindow() {
-        mainFrame.dispose();
+    public void loadLvlMenu() {
+        mainFrame.loadMenu(new LvlMenu(this, infos));
+    }
+
+    public void loadLvlGame(int lvl, String mapName) {
+        LvlControl gameControl = new LvlControl(this, lvl, mapName);
+        mainFrame.loadMenu(gameControl.view);
+        gameControl.startGame();
+    }
+
+    public void loadLvlEnd(Status status, GameStats stats, int lvl, int nbWaves, int stars) {
+        switch (status) {
+            case PLAYING: break;
+            case EXIT: loadLvlMenu(); break;
+
+            case VICTORY:
+                if (lvl < infos.lvlCompletion.size()) {
+                    infos.lvlCompletion.set(lvl, stars);
+                } else {
+                    infos.lvlCompletion.add(stars);
+                }
+            case DEFEAT:
+                mainFrame.loadMenu(new LvlEnd(this, stats, nbWaves, stars, status == VICTORY));
+                break;
+        }
     }
 
     /**

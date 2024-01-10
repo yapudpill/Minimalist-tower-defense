@@ -8,7 +8,7 @@ import java.awt.GridLayout;
 
 import javax.swing.JPanel;
 
-import src.controller.MarathonControl;
+import src.controller.GameControl;
 import src.model.Grid;
 import src.model.Enemy;
 import src.model.BasicEnemy;
@@ -37,7 +37,7 @@ public class GridView extends JPanel {
      * @param grid    the cell grid to display
      * @param control the controller of this game
      */
-    public GridView(Grid grid, MarathonControl control) {
+    public GridView(Grid grid, GameControl control) {
         this.grid = grid;
         setLayout(new GridLayout(grid.height, grid.width));
 

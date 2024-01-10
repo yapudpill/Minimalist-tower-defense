@@ -10,9 +10,9 @@ import javax.swing.JPanel;
 import src.controller.MainControl;
 import src.model.GameStats;
 
-public class MarathonEnd extends JPanel {
+public class LvlEnd extends JPanel {
 
-    public MarathonEnd(MainControl controller, GameStats stats) {
+    public LvlEnd(MainControl controller, GameStats stats, int nbWaves, int stars, boolean victory) {
         setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
 
@@ -21,20 +21,26 @@ public class MarathonEnd extends JPanel {
         constraints.weightx = 1;
         constraints.weighty = 1;
 
-        // Game over (row 1)
+        // Status (row 1)
         constraints.gridwidth = 4;
         constraints.gridy = 0;
         constraints.gridx = 0;
-        JLabel gameOver = new JLabel("Game Over");
+        JLabel gameOver = new JLabel(victory ? "Victory!" : "Game Over");
         gameOver.setHorizontalAlignment(JLabel.CENTER);
         gameOver.setVerticalAlignment(JLabel.BOTTOM);
         gameOver.setFont(Palette.PLAIN_SANS_BIG);
         add(gameOver, constraints);
 
-        // Wave count (row 2)
+        // Subtitle (row 2)
         constraints.gridy = 1;
         constraints.gridx = 0;
-        JLabel wave = new JLabel("You survived " + stats.waveCount + " waves!");
+        String text;
+        if (victory) {
+            text = "★".repeat(stars) + "☆".repeat(3-stars);
+        } else {
+            text = "You survived " + stats.waveCount + " waves out of " + nbWaves;
+        }
+        JLabel wave = new JLabel(text);
         wave.setFont(Palette.PLAIN_SANS);
         wave.setHorizontalAlignment(JLabel.CENTER);
         wave.setVerticalAlignment(JLabel.TOP);
@@ -119,7 +125,7 @@ public class MarathonEnd extends JPanel {
         constraints.gridwidth = 2;
         JButton menu = new JButton("Back to menu");
         menu.setFont(Palette.PLAIN_SANS);
-        menu.addActionListener(e -> controller.loadMarathonMenu());
+        menu.addActionListener(e -> controller.loadLvlMenu());
         add(menu, constraints);
     }
 }

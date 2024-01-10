@@ -90,7 +90,7 @@ public class MarathonMenu extends JPanel {
 
         constraints.gridx = 1;
         constraints.gridwidth = 3;
-        InputStream in = MarathonMenu.class.getResourceAsStream("/src/resources/maps/index");
+        InputStream in = MarathonMenu.class.getResourceAsStream("/src/resources/marathon_index");
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         mapBox = new JComboBox<>(reader.lines().toArray(String[]::new));
         mapBox.setFont(Palette.PLAIN_SANS);

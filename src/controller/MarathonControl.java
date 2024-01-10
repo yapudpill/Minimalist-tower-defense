@@ -3,7 +3,6 @@ package src.controller;
 import static src.util.Status.EXIT;
 import static src.util.Status.PLAYING;
 
-import java.util.Timer;
 import java.util.TimerTask;
 import java.util.function.Function;
 
@@ -17,18 +16,9 @@ import src.view.MarathonView;
  * Controller for a marathon type game. Receives any inputs concerning the game
  * and modifies the model and view in consequence.
  */
-public class MarathonControl {
-
-    /**
-     * Time between two updates in milliseconds. 17 ms approximately corresponds
-     * to 60 updates per second.
-     */
-    private static final int FRAME_RATE = 17;
-
+public class MarathonControl extends GameControl {
     public final MarathonView view;
     private final MarathonModel model;
-    private final Timer updateTimer;
-    private final MainControl main;
 
     /**
      * Creates a new controller for the marathon game mode.
@@ -43,10 +33,9 @@ public class MarathonControl {
      * @param map  the name of the file in which the map to load is saved
      */
     public MarathonControl(MainControl main, Difficulty diff, String mapName) {
-        this.main = main;
+        super(main);
         model = new MarathonModel(diff, mapName);
         view = new MarathonView(model, this);
-        updateTimer = new Timer();
     }
 
     /**
@@ -59,6 +48,7 @@ public class MarathonControl {
      * @see MarathonModel#update(int)
      * @see MainControl#loadMarathonEnd()
      */
+    @Override
     public void startGame() {
         updateTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -67,7 +57,7 @@ public class MarathonControl {
                 view.repaint();
                 if (model.status != PLAYING) {
                     cancel();
-                    main.loadMarathonEnd(model.getWaveCount(), model.status, model.getStats());
+                    main.loadMarathonEnd(model.status, model.stats);
                 }
             }
         },
@@ -80,6 +70,7 @@ public class MarathonControl {
      *
      * @param pos the position where to add a tower
      */
+    @Override
     public void addTower(Coordinate pos) {
         Function<Coordinate, Tower> constr = view.shop.getSelection();
         if (constr != null) {
@@ -87,6 +78,7 @@ public class MarathonControl {
         }
     }
 
+    @Override
     public void exit() {
         model.status = EXIT;
     }

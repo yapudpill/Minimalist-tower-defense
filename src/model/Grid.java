@@ -107,8 +107,8 @@ public class Grid {
      * @param nb     the number of enemies to spawn
      * @param constr the enemy constructor
      */
-    public void spawnEnemies(int nb, TriFunction<Coordinate, Direction,Integer, Enemy> constr) {
-        for (int i = 0; i < nb; i++) {
+    public void spawnEnemies(ArrayList<TriFunction<Coordinate, Direction,Integer, Enemy>> constructors) {
+        for (var constr : constructors) {
             Coordinate spawn = new Coordinate(randomSpawn());
             Direction direction = getDirection(spawn);
             toSpawn.add(constr.apply(spawn, direction, distanceToEnd(spawn)));

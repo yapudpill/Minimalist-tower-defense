@@ -1,7 +1,7 @@
 package src.model;
 
 public class GameStats {
-    public int basicKilled, fastKilled, tankKilled, basicPlaced, canonPlaced, sniperPlaced, earnedGold, spentGold;
+    public int basicKilled, fastKilled, tankKilled, basicPlaced, canonPlaced, sniperPlaced, earnedGold, spentGold, waveCount;
 
     public void towerPlaced(Tower tower) {
         if (tower instanceof BasicTower) {
@@ -21,5 +21,9 @@ public class GameStats {
         } else if (enemy instanceof TankEnemy) {
             tankKilled++;
         }
+    }
+
+    public int getWaveCount() {
+        return waveCount;
     }
 }
