@@ -4,22 +4,22 @@ import static src.util.Status.EXIT;
 import static src.util.Status.VICTORY;
 
 import src.model.GameStats;
-import src.model.GlobalInfos;
+import src.model.GlobalModel;
 import src.util.Difficulty;
 import src.util.Status;
-import src.view.LvlEnd;
-import src.view.LvlMenu;
 import src.view.MainFrame;
-import src.view.MarathonEnd;
-import src.view.MarathonMenu;
-import src.view.StartMenu;
+import src.view.menus.LevelEnd;
+import src.view.menus.LevelMenu;
+import src.view.menus.MarathonEnd;
+import src.view.menus.MarathonMenu;
+import src.view.menus.StartMenu;
 
 /**
  * Main controller of the project. This controller is in change of creating the
  * main frame and swapping menus.
  */
 public class MainControl {
-    private final GlobalInfos infos;
+    private final GlobalModel globalModel;
     private final MainFrame mainFrame;
 
     /**
@@ -29,7 +29,7 @@ public class MainControl {
      * <code>StartMenu</code> in it.
      */
     public MainControl() {
-        infos = new GlobalInfos();
+        globalModel = new GlobalModel();
         mainFrame = new MainFrame();
         loadStartMenu();
     }
@@ -43,19 +43,19 @@ public class MainControl {
     }
 
     /**
-     * Closes the main window of this controller.
-     */
-    public void closeWindow() {
-        mainFrame.dispose();
-        System.exit(0);
-    }
-
-    /**
      * Loads a new <code>MarathonMenu</code> in the <code>mainFrame</code> of this
      * controller.
      */
     public void loadMarathonMenu() {
         mainFrame.loadMenu(new MarathonMenu(this));
+    }
+
+    /**
+     * Loads a new <code>LevelMenu</code> in the <code>mainFrame</code> of this
+     * controller.
+     */
+    public void loadLevelMenu() {
+        mainFrame.loadMenu(new LevelMenu(this, globalModel));
     }
 
     /**
@@ -72,8 +72,24 @@ public class MainControl {
     }
 
     /**
+     * Creates a new <code>LevelControl</code> object and load its
+     * <code>view</code> in the <code>mainFrame</code> of this controller.
+     *
+     * @param int     the level of the game being loaded
+     * @param mapName the name of the file in which the map to load is saved
+     */
+    public void loadLevelGame(int level, String mapName) {
+        LevelControl gameControl = new LevelControl(this, level, mapName);
+        mainFrame.loadMenu(gameControl.view);
+        gameControl.startGame();
+    }
+
+    /**
      * Loads a new <code>MarathonEnd</code> in the <code>mainFrame</code> of this
      * controller.
+     *
+     * @param status the status at the end of the game
+     * @param stats  the game statistics
      */
     public void loadMarathonEnd(Status status, GameStats stats) {
         if (status == EXIT) {
@@ -83,31 +99,39 @@ public class MainControl {
         }
     }
 
-    public void loadLvlMenu() {
-        mainFrame.loadMenu(new LvlMenu(this, infos));
-    }
-
-    public void loadLvlGame(int lvl, String mapName) {
-        LvlControl gameControl = new LvlControl(this, lvl, mapName);
-        mainFrame.loadMenu(gameControl.view);
-        gameControl.startGame();
-    }
-
-    public void loadLvlEnd(Status status, GameStats stats, int lvl, int nbWaves, int stars) {
+    /**
+     * Loads a new <code>LevelEnd</code> in the <code>mainFrame</code> of this
+     * controller.
+     *
+     * @param status  the status at the end of the game
+     * @param stats   the game statistics
+     * @param level   the level that was playing
+     * @param nbWaves the total number of waves of the game
+     * @param stars   the stars to earn un case of a win
+     */
+    public void loadLevelEnd(Status status, GameStats stats, int level, int nbWaves, int stars) {
         switch (status) {
             case PLAYING: break;
-            case EXIT: loadLvlMenu(); break;
+            case EXIT: loadLevelMenu(); break;
 
             case VICTORY:
-                if (lvl < infos.lvlCompletion.size()) {
-                    infos.lvlCompletion.set(lvl, stars);
+                if (level < globalModel.levelCompletion.size()) {
+                    globalModel.levelCompletion.set(level, stars);
                 } else {
-                    infos.lvlCompletion.add(stars);
+                    globalModel.levelCompletion.add(stars);
                 }
             case DEFEAT:
-                mainFrame.loadMenu(new LvlEnd(this, stats, nbWaves, stars, status == VICTORY));
+                mainFrame.loadMenu(new LevelEnd(this, stats, nbWaves, stars, status == VICTORY));
                 break;
         }
+    }
+
+    /**
+     * Closes the main window of this controller.
+     */
+    public void closeWindow() {
+        mainFrame.dispose();
+        System.exit(0);
     }
 
     /**

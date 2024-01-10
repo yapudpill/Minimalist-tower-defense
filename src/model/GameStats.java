@@ -1,5 +1,14 @@
 package src.model;
 
+import src.model.enemies.BasicEnemy;
+import src.model.enemies.Enemy;
+import src.model.enemies.FastEnemy;
+import src.model.enemies.TankEnemy;
+import src.model.towers.BasicTower;
+import src.model.towers.CanonTower;
+import src.model.towers.SniperTower;
+import src.model.towers.Tower;
+
 public class GameStats {
     public int basicKilled, fastKilled, tankKilled, basicPlaced, canonPlaced, sniperPlaced, earnedGold, spentGold, waveCount;
 
