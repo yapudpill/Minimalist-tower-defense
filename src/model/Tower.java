@@ -48,7 +48,7 @@ public abstract class Tower {
         nextShootTime -= frameRate;
         if (nextShootTime <= 0 && target != null && target.isAlive()) {
             nextShootTime = cooldown;
-            bullets.add(new Bullet(5, new Coordinate(pos), target, damage));
+            bullets.add(new Bullet(5, new Coordinate(pos), target, damage, range));
         }
     };
 

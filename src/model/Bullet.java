@@ -8,12 +8,14 @@ public class Bullet {
     private final Enemy target;
     private final double speed; // in cells per second
     private final int damage;
+    private double range;
 
-    public Bullet(double speed, Coordinate initialPos, Enemy target, int damage) {
+    public Bullet(double speed, Coordinate initialPos, Enemy target, int damage, double range) {
         this.pos = initialPos;
         this.target = target;
         this.speed = speed;
         this.damage = damage;
+        this.range = range;
     }
 
     /**
@@ -26,11 +28,12 @@ public class Bullet {
      * @return
      */
     public int update(int frameRate) {
-        if (hasNoTarget()) {
+        double step = frameRate * speed / 1000;
+
+        if (hasNoTarget() || range - step <= 0) {
             return -1;
         }
 
-        double step = frameRate * speed / 1000;
         if (pos.distance(target.pos) - step <= 0) {
             target.health -= damage;
             if (!target.isAlive()) {
@@ -44,6 +47,7 @@ public class Bullet {
         double dx = coef * (target.pos.x - pos.x);
         double dy = coef * (target.pos.y - pos.y);
         pos.translate(dx, dy);
+        range -= step;
         return 0;
     }
 
