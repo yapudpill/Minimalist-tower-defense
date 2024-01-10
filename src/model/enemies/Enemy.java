@@ -10,6 +10,7 @@ import src.util.Direction;
  * this class
  */
 public abstract class Enemy {
+    private static final double EPSILON = 1e-2;
 
     /**
      * Speed of this enemy, in cells per second
@@ -19,7 +20,6 @@ public abstract class Enemy {
     public int health;
     private final double speed;
     private Direction direction;
-    private boolean changedCell;
     private int remainingCell;
 
     /**
@@ -37,7 +37,6 @@ public abstract class Enemy {
         this.pos = initialPos;
         this.direction = initialDir;
         this.reward = reward;
-        this.changedCell = false;
         this.remainingCell = remainingCell;
     }
 
@@ -47,17 +46,9 @@ public abstract class Enemy {
      * @param frameRate time since last update, in milliseconds
      */
     public void update(int frameRate) {
-        Coordinate old = new Coordinate(pos);
         double step = frameRate * speed / 1000;
-        switch (direction) {
-            case UP:    pos.translate(0, -step); break;
-            case LEFT:  pos.translate(-step, 0); break;
-            case DOWN:  pos.translate(0, step); break;
-            case RIGHT: pos.translate(step, 0); break;
-            default:    break;
-        }
-        changedCell = (int) old.x != (int) pos.x || (int) old.y != (int) pos.y;
-        if (changedCell) {
+        pos.translate(direction, step);
+        if (changedCell()) {
             remainingCell--;
         }
     }
@@ -82,7 +73,8 @@ public abstract class Enemy {
      * @return <code>true</code> if this enemy changed cell since it last turned
      */
     public boolean changedCell() {
-        return changedCell;
+        Coordinate nearest = new Coordinate(Math.round(pos.x), Math.round(pos.y));
+        return pos.distance(nearest) < EPSILON;
     }
 
     /**
@@ -100,7 +92,7 @@ public abstract class Enemy {
      */
     public void setDirection(Direction direction) {
         this.direction = direction;
-        changedCell = false;
+        pos.translate(direction, EPSILON);
     }
 
     /**

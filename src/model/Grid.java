@@ -74,7 +74,7 @@ public class Grid {
                 char[] l = reader.readLine().toCharArray();
                 for (int x = 0; x < widthTmp; x++) {
                     switch (l[x]) {
-                        case ' ': gridTmp[y][x] = new EmptyCell(); break;
+                        case '.': gridTmp[y][x] = new EmptyCell(); break;
 
                         case 'u': spawnPoints.add(new Coordinate(x, y));
                         case '^': gridTmp[y][x] = new PathCell(UP); break;
@@ -207,7 +207,7 @@ public class Grid {
      *         it is a <code>PathCell</code>, <code>null</code> otherwise
      */
     public Direction getDirection(Coordinate cds) {
-        return getDirection((int) cds.x, (int) cds.y);
+        return getDirection((int) Math.round(cds.x), (int) Math.round(cds.y));
     }
 
     /**

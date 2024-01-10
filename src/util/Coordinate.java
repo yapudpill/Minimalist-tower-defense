@@ -28,17 +28,6 @@ public class Coordinate {
     }
 
     /**
-     * Sets <code>x</code> and <code>y</code> to the specified values.
-     *
-     * @param x the new x coordinate
-     * @param y the new y coordinate
-     */
-    public void move(double x, double y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    /**
      * Slides <code>x</code> and <code>y</code> by the specified values.
      *
      * @param dx the x-axis movement
@@ -47,6 +36,16 @@ public class Coordinate {
     public void translate(double dx, double dy) {
         this.x += dx;
         this.y += dy;
+    }
+
+    public void translate(Direction dir, double dist) {
+        switch (dir) {
+            case UP: this.y -= dist; break;
+            case LEFT: this.x -= dist; break;
+            case DOWN: this.y += dist; break;
+            case RIGHT: this.x += dist; break;
+            case END_OF_PATH: break;
+        }
     }
 
     /**
