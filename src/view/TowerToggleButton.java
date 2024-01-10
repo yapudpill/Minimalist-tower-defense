@@ -1,6 +1,5 @@
 package src.view;
 
-import java.awt.Font;
 import java.util.function.Function;
 
 import javax.swing.ButtonGroup;
@@ -27,7 +26,7 @@ public class TowerToggleButton extends JToggleButton {
      */
     public TowerToggleButton(Function<Coordinate, Tower> constr, ButtonGroup group) {
         setModel(new TowerButtonModel(constr, group));
-        setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 25));
+        setFont(Palette.PLAIN_SANS);
         setOpaque(true);
 
         Tower tower = constr.apply(null);

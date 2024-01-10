@@ -20,6 +20,7 @@ public class DifficultyRadioButton extends JRadioButton {
      */
     public DifficultyRadioButton(Difficulty diff, ButtonGroup group) {
         setModel(new DifficultyButtonModel(diff, group));
+        setFont(Palette.PLAIN_SANS);
         switch (diff) {
             case EASY: setText("Easy"); break;
             case MEDIUM: setText("Medium"); break;

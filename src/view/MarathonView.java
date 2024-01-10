@@ -36,7 +36,7 @@ public class MarathonView extends JPanel {
         gridPanel.add(new GridView(model.grid, control));
         add(gridPanel, BorderLayout.CENTER);
 
-        shop = new TowerShop();
+        shop = new TowerShop(control);
         add(shop, BorderLayout.SOUTH);
     }
 }

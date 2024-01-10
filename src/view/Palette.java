@@ -1,6 +1,7 @@
 package src.view;
 
 import java.awt.Color;
+import java.awt.Font;
 
 /**
  * The colors used in this project.
@@ -30,4 +31,8 @@ public class Palette {
     public static final Color LIFE = new Color(0xff5d5d);
     public static final Color GOLD = new Color(0xffd100);
     public static final Color WAVE = new Color(0x87e0ff);
+
+    // Fonts
+    public static final Font PLAIN_SANS = new Font(Font.SANS_SERIF, Font.PLAIN, 23);
+    public static final Font PLAIN_SANS_BIG = new Font(Font.SANS_SERIF, Font.PLAIN, 30);
 }

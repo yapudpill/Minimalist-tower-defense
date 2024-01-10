@@ -4,8 +4,10 @@ import java.awt.FlowLayout;
 import java.util.function.Function;
 
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import src.controller.MarathonControl;
 import src.model.BasicTower;
 import src.model.CanonTower;
 import src.model.SniperTower;
@@ -22,13 +24,18 @@ public class TowerShop extends JPanel {
      * Creates a new <code>TowerShop</code> and add in it one
      * <code>TowerToggleButton</code> per type of tower.
      */
-    public TowerShop() {
+    public TowerShop(MarathonControl control) {
         group = new ButtonGroup();
         setLayout(new WrapLayout(FlowLayout.CENTER, 60, 10));
 
         add(new TowerToggleButton(BasicTower::new, group));
         add(new TowerToggleButton(CanonTower::new, group));
         add(new TowerToggleButton(SniperTower::new, group));
+
+        JButton exit = new JButton("Back to menu");
+        exit.setFont(Palette.PLAIN_SANS);
+        exit.addActionListener(e -> control.exit());
+        add(exit);
     }
 
     /**

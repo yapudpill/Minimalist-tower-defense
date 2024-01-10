@@ -26,7 +26,6 @@ public class StartMenu extends JPanel {
         GridBagConstraints constraints = new GridBagConstraints();
 
         // Global constraints
-        constraints.anchor = GridBagConstraints.CENTER;
         constraints.fill = GridBagConstraints.BOTH;
         constraints.weightx = 1;
         constraints.weighty = 1;
@@ -36,31 +35,44 @@ public class StartMenu extends JPanel {
 
         constraints.gridy = 0;
         constraints.gridwidth = 2;
-        JLabel title = new JLabel("TITLE");
+        JLabel title = new JLabel("MINIMALIST TOWER DEFENSE");
         title.setHorizontalAlignment(JLabel.CENTER);
+        title.setFont(Palette.PLAIN_SANS_BIG);
         add(title, constraints);
         constraints.gridwidth = 1;
 
         constraints.gridy = 1;
-        add(new JButton("Levels"), constraints);
+        JButton levels = new JButton("Levels");
+        levels.setFont(Palette.PLAIN_SANS);
+        add(levels, constraints);
+
         constraints.gridy = 2;
-        add(new JButton("Shop"), constraints);
+        JButton shop = new JButton("Shop");
+        shop.setFont(Palette.PLAIN_SANS);
+        add(shop, constraints);
+
         constraints.gridy = 3;
-        add(new JButton("Settings"), constraints);
+        JButton settings = new JButton("Settings");
+        settings.setFont(Palette.PLAIN_SANS);
+        add(settings, constraints);
 
         // Second column
         constraints.gridx = 1;
 
         constraints.gridy = 1;
         JButton marathon = new JButton("Marathon");
+        marathon.setFont(Palette.PLAIN_SANS);
         marathon.addActionListener(e -> controller.loadMarathonMenu());
         add(marathon, constraints);
 
         constraints.gridy = 2;
-        add(new JButton("Scores"), constraints);
+        JButton scores = new JButton("Scores");
+        scores.setFont(Palette.PLAIN_SANS);
+        add(scores, constraints);
 
         constraints.gridy = 3;
         JButton exit = new JButton("Exit");
+        exit.setFont(Palette.PLAIN_SANS);
         exit.addActionListener(e -> controller.closeWindow());
         add(exit, constraints);
     }

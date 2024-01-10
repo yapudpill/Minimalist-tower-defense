@@ -22,7 +22,7 @@ public class MainFrame extends JFrame {
         } catch (Exception e) {}
 
         setSize(900,900);
-        setTitle("Tower Defence");
+        setTitle("Minimalist Tower Defense");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(null);
         EventQueue.invokeLater(() -> setVisible(true));

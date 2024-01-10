@@ -43,7 +43,6 @@ public class MarathonMenu extends JPanel {
         GridBagConstraints constraints = new GridBagConstraints();
 
         // Global constraints
-        constraints.anchor = GridBagConstraints.CENTER;
         constraints.fill = GridBagConstraints.BOTH;
         constraints.weightx = 1;
         constraints.weighty = 1;
@@ -53,6 +52,7 @@ public class MarathonMenu extends JPanel {
         constraints.gridx = 0;
         constraints.gridwidth = 4;
         JLabel title = new JLabel("MARATHON");
+        title.setFont(Palette.PLAIN_SANS_BIG);
         title.setHorizontalAlignment(JLabel.CENTER);
         add(title, constraints);
         constraints.gridwidth = 1;
@@ -61,7 +61,9 @@ public class MarathonMenu extends JPanel {
         constraints.gridy = 1;
 
         constraints.gridx = 0;
-        add(new JLabel("Difficulty"), constraints);
+        JLabel difficulty = new JLabel("Difficulty");
+        difficulty.setFont(Palette.PLAIN_SANS);
+        add(difficulty, constraints);
 
         constraints.gridx = 1;
         JRadioButton easy = new DifficultyRadioButton(EASY, difficultyButtons);
@@ -82,13 +84,16 @@ public class MarathonMenu extends JPanel {
         constraints.gridy = 2;
 
         constraints.gridx = 0;
-        add(new JLabel("Map"), constraints);
+        JLabel map = new JLabel("Map");
+        map.setFont(Palette.PLAIN_SANS);
+        add(map, constraints);
 
         constraints.gridx = 1;
         constraints.gridwidth = 3;
         InputStream in = MarathonMenu.class.getResourceAsStream("/src/resources/maps/index");
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         mapBox = new JComboBox<>(reader.lines().toArray(String[]::new));
+        mapBox.setFont(Palette.PLAIN_SANS);
         add(mapBox, constraints);
         constraints.gridwidth = 1;
 
@@ -98,11 +103,13 @@ public class MarathonMenu extends JPanel {
 
         constraints.gridx = 0;
         JButton back = new JButton("Back");
+        back.setFont(Palette.PLAIN_SANS);
         back.addActionListener(e -> control.loadStartMenu());
         add(back, constraints);
 
         constraints.gridx = 2;
         start = new JButton("Start");
+        start.setFont(Palette.PLAIN_SANS);
         start.setEnabled(false);
         start.addActionListener(this::askLoadMarathonGame);
         add(start, constraints);

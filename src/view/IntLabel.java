@@ -1,7 +1,6 @@
 package src.view;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.util.function.IntSupplier;
 
@@ -28,7 +27,7 @@ public class IntLabel extends JLabel {
         this.getter = getter;
 
         setText(text + getter.getAsInt());
-        setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 25));
+        setFont(Palette.PLAIN_SANS);
         setBackground(color);
         setOpaque(true);
     }

@@ -29,9 +29,10 @@ public class MarathonModel {
     public final Grid grid;
     private final int[] spawnRef;
     private final int waveInterval;
+    private final GameStats stats;
     private int life, gold, nextWaveTime, waveCount;
     private boolean spawning;
-    private Status status;
+    public Status status;
 
     /**
      * Creates a new marathon game model with the specified map and difficulty.
@@ -46,11 +47,12 @@ public class MarathonModel {
 
         spawnRef = new int[2];
         switch (diff) {
-            case EASY:   waveInterval = 13000; spawnRef[0] = 50; spawnRef[1] = 75; break;
+            case EASY:   waveInterval = 12000; spawnRef[0] = 50; spawnRef[1] = 75; break;
             case MEDIUM: waveInterval = 10000; spawnRef[0] = 45; spawnRef[1] = 75; break;
             default:     waveInterval = 8000;  spawnRef[0] = 35; spawnRef[1] = 60; break;
         }
-        nextWaveTime = 5000; // Wait 5 seconds before the first wave
+        stats = new GameStats();
+        nextWaveTime = 3000; // Wait 3 seconds before the first wave
         life = 3;
         gold = 100;
         waveCount = 0;
@@ -76,7 +78,7 @@ public class MarathonModel {
         }
         updateEnemies(frameRate);
         towerShoot(frameRate);
-        spawning = grid.updateEnemiesList(frameRate);
+        spawning = grid.updateEnemiesList(frameRate, stats);
     }
 
     /**
@@ -134,7 +136,9 @@ public class MarathonModel {
      */
     private void towerShoot(int frameRate) {
         for (TowerCell towerCell : grid.towerCells) {
-            gold += towerCell.update(frameRate, grid.enemies);
+            int reward = towerCell.update(frameRate, grid.enemies);
+            gold += reward;
+            stats.earnedGold += reward;
         }
     }
 
@@ -153,15 +157,10 @@ public class MarathonModel {
             if (existingTower == null || existingTower.getClass() != tower.getClass()) {
                 tc.tower = tower;
                 gold -= tower.cost;
+                stats.spentGold += tower.cost;
+                stats.towerPlaced(tower);
             }
         }
-    }
-
-    /**
-     * @return this game status
-     */
-    public Status getStatus() {
-        return status;
     }
 
     /**
@@ -183,5 +182,9 @@ public class MarathonModel {
      */
     public int getWaveCount() {
         return waveCount;
+    }
+
+    public GameStats getStats() {
+        return stats;
     }
 }

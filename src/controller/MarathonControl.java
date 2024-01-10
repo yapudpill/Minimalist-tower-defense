@@ -1,5 +1,6 @@
 package src.controller;
 
+import static src.util.Status.EXIT;
 import static src.util.Status.PLAYING;
 
 import java.util.Timer;
@@ -64,13 +65,13 @@ public class MarathonControl {
             public void run() {
                 model.update(FRAME_RATE);
                 view.repaint();
-                if (model.getStatus() != PLAYING) {
+                if (model.status != PLAYING) {
                     cancel();
-                    main.loadMarathonEnd();
+                    main.loadMarathonEnd(model.getWaveCount(), model.status, model.getStats());
                 }
             }
         },
-                0, FRAME_RATE);
+        0, FRAME_RATE);
     }
 
     /**
@@ -84,5 +85,9 @@ public class MarathonControl {
         if (constr != null) {
             model.addTower(constr.apply(pos));
         }
+    }
+
+    public void exit() {
+        model.status = EXIT;
     }
 }

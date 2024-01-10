@@ -107,11 +107,11 @@ public class Grid {
      * @param nb     the number of enemies to spawn
      * @param constr the enemy constructor
      */
-    public void spawnEnemies(int nb, TriFunction<Coordinate, Direction, Integer,Enemy> constr) {
+    public void spawnEnemies(int nb, TriFunction<Coordinate, Direction,Integer, Enemy> constr) {
         for (int i = 0; i < nb; i++) {
-            Coordinate spawn = randomSpawn();
+            Coordinate spawn = new Coordinate(randomSpawn());
             Direction direction = getDirection(spawn);
-            toSpawn.add(constr.apply(new Coordinate(spawn), direction, distanceToEnd(spawn)));
+            toSpawn.add(constr.apply(spawn, direction, distanceToEnd(spawn)));
         }
     }
 
@@ -151,11 +151,14 @@ public class Grid {
      * @return <code>true</code> if there is still enemies to spawn,
      *         <code>false</code> otherwise
      */
-    public boolean updateEnemiesList(int frameRate) {
+    public boolean updateEnemiesList(int frameRate, GameStats stats) {
         for (Iterator<Enemy> it = enemies.iterator(); it.hasNext();) {
-            Enemy e = it.next();
-            if (!e.isOnGrid()) {
+            Enemy enemy = it.next();
+            if (!enemy.isOnGrid()) {
                 it.remove();
+                if (!enemy.isAlive()) {
+                    stats.enemyDied(enemy);
+                }
             }
         }
 

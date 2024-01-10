@@ -4,6 +4,5 @@ public enum Status {
     PLAYING,
     VICTORY,
     DEFEAT,
-    EXIT,
-    STOPPED
+    EXIT
 }

@@ -1,7 +1,12 @@
 package src.controller;
 
+import static src.util.Status.EXIT;
+
+import src.model.GameStats;
 import src.util.Difficulty;
+import src.util.Status;
 import src.view.MainFrame;
+import src.view.MarathonEnd;
 import src.view.MarathonMenu;
 import src.view.StartMenu;
 
@@ -56,8 +61,12 @@ public class MainControl {
      * Loads a new <code>MarathonEnd</code> in the <code>mainFrame</code> of this
      * controller.
      */
-    public void loadMarathonEnd() {
-
+    public void loadMarathonEnd(int waveCount,Status status, GameStats stats) {
+        if (status == EXIT) {
+            loadMarathonMenu();
+        } else {
+            mainFrame.loadMenu(new MarathonEnd(this, waveCount, stats));
+        }
     }
 
     /**
