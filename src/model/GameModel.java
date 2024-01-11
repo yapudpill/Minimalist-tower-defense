@@ -28,7 +28,7 @@ public abstract class GameModel {
         InputStream in = getClass().getResourceAsStream("/src/resources/" + mapName);
         reader = new BufferedReader(new InputStreamReader(in));
         grid = new Grid(reader);
-        stats = new GameStats();
+        stats = new GameStats(mapName);
         nextWaveTime = 3000; // Wait 3 seconds before the first wave
         life = 3;
         gold = 120;

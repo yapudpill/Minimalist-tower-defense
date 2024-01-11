@@ -51,6 +51,7 @@ public class StartMenu extends JPanel {
         constraints.gridy = 2;
         JButton scores = new JButton("Scores");
         scores.setFont(Palette.PLAIN_SANS);
+        scores.addActionListener(e -> controller.loadScoresMenu());
         add(scores, constraints);
 
         // Second column

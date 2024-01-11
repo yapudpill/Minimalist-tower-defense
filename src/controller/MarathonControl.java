@@ -22,6 +22,7 @@ public class MarathonControl extends GameControl {
 
     @Override
     void callEndScreen() {
-        main.loadMarathonEnd(model.status, model.stats);
+        MarathonModel m = (MarathonModel) model;
+        main.loadMarathonEnd(m.status, m.stats, m.diff);
     }
 }

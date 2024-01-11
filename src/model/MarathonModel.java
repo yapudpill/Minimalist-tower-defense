@@ -27,6 +27,7 @@ public class MarathonModel extends GameModel {
      * we spawn a FastEnemy. And above the second, we spawn a TankEnemy.
      */
     private final int[] spawnRef;
+    public final Difficulty diff;
 
     /**
      * Creates a new marathon game model with the specified map and difficulty.
@@ -36,6 +37,7 @@ public class MarathonModel extends GameModel {
      */
     public MarathonModel(Difficulty diff, String mapName) {
         super(mapName);
+        this.diff = diff;
 
         spawnRef = new int[2];
         switch (diff) {

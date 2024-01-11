@@ -10,7 +10,17 @@ import src.model.towers.SniperTower;
 import src.model.towers.Tower;
 
 public class GameStats {
+    public static int nextGameNo = 1;
+
+    public final int gameNo;
+    public final String mapName;
     public int basicKilled, fastKilled, tankKilled, basicPlaced, canonPlaced, sniperPlaced, earnedGold, spentGold, waveCount;
+
+    public GameStats(String mapName) {
+        this.mapName = mapName;
+        gameNo = nextGameNo;
+        nextGameNo++;
+    }
 
     public void towerPlaced(Tower tower) {
         if (tower instanceof BasicTower) {

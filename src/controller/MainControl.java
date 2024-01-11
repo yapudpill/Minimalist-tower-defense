@@ -12,6 +12,7 @@ import src.view.menus.LevelEnd;
 import src.view.menus.LevelMenu;
 import src.view.menus.MarathonEnd;
 import src.view.menus.MarathonMenu;
+import src.view.menus.ScoreMenu;
 import src.view.menus.StartMenu;
 
 /**
@@ -48,6 +49,10 @@ public class MainControl {
      */
     public void loadMarathonMenu() {
         mainFrame.loadMenu(new MarathonMenu(this));
+    }
+
+    public void loadScoresMenu() {
+        mainFrame.loadMenu(new ScoreMenu(this, globalModel.stats));
     }
 
     /**
@@ -91,10 +96,15 @@ public class MainControl {
      * @param status the status at the end of the game
      * @param stats  the game statistics
      */
-    public void loadMarathonEnd(Status status, GameStats stats) {
+    public void loadMarathonEnd(Status status, GameStats stats, Difficulty diff) {
         if (status == EXIT) {
             loadMarathonMenu();
         } else {
+            switch (diff) {
+                case EASY:   globalModel.stats[0].add(stats); break;
+                case MEDIUM: globalModel.stats[1].add(stats); break;
+                case HARD:   globalModel.stats[2].add(stats); break;
+            }
             mainFrame.loadMenu(new MarathonEnd(this, stats));
         }
     }
