@@ -67,7 +67,7 @@ public abstract class Tower {
     private void shoot(int frameRate, ArrayList<Enemy> enemies) {
         target = chooseTarget(enemies);
         nextShootTime -= frameRate;
-        if (nextShootTime <= 0 && target != null && target.isAlive()) {
+        if (nextShootTime <= 0 && target != null && validTarget(target)) {
             nextShootTime = cooldown;
             bullets.add(new Bullet(5, new Coordinate(pos), target, damage, range));
         }
@@ -77,8 +77,8 @@ public abstract class Tower {
      * @param enemy the enemy to test
      * @return      <code>true</code> if the enemy is in the range of this tower
      */
-    protected boolean inRange(Enemy enemy) {
-        return this.pos.distance(enemy.pos) <= range;
+    protected boolean validTarget(Enemy enemy) {
+        return enemy.isOnGrid() && this.pos.distance(enemy.pos) <= range;
     }
 
     /**

@@ -66,7 +66,7 @@ public class LevelModel extends GameModel {
         updateEnemies(frameRate);
         towerShoot(frameRate);
         spawning = grid.updateEnemiesList(frameRate, stats);
-        if (stats.waveCount == nbWaves && grid.enemies.isEmpty()) {
+        if (!spawning && stats.waveCount == nbWaves && grid.enemies.isEmpty()) {
             status = VICTORY;
         }
     }

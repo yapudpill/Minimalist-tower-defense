@@ -13,16 +13,16 @@ public class CanonTower extends Tower {
      * <code>cooldown = 2000</code>.
      */
     public CanonTower(Coordinate pos) {
-        super(2, 2, 60, 2000, pos);
+        super(3, 2, 60, 2000, pos);
     }
 
     @Override
     Enemy chooseTarget(ArrayList<Enemy> enemies) {
-        if (target != null && target.isOnGrid() && inRange(target)) {
+        if (target != null && validTarget(target)) {
             return target;
         }
         for (Enemy enemy : enemies) {
-            if (inRange(enemy) && enemy.isAlive()) {
+            if (validTarget(enemy)) {
                 return enemy;
             }
         }

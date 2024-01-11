@@ -18,14 +18,14 @@ public class SniperTower extends Tower {
 
     @Override
     Enemy chooseTarget(ArrayList<Enemy> enemies) {
-        if (target != null && target.isOnGrid() && inRange(target)) {
+        if (target != null && validTarget(target)) {
             return target;
         }
 
         int minDist = Integer.MAX_VALUE;
         Enemy selected = null;
         for (Enemy enemy : enemies) {
-            if (inRange(enemy) && enemy.isAlive() && enemy.getRemainingCell() < minDist) {
+            if (validTarget(enemy) && enemy.getRemainingCell() < minDist) {
                 minDist = enemy.getRemainingCell();
                 selected = enemy;
             }
