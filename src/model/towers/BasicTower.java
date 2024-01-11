@@ -13,7 +13,7 @@ public class BasicTower extends Tower {
      * <code>cooldown = 1500</code>.
      */
     public BasicTower(Coordinate pos) {
-        super(1, 5, 40, 1500, pos);
+        super(1, 3, 40, 1500, pos);
     }
 
     @Override

@@ -13,7 +13,7 @@ public class CanonTower extends Tower {
      * <code>cooldown = 2000</code>.
      */
     public CanonTower(Coordinate pos) {
-        super(2, 3, 60, 2000, pos);
+        super(2, 2, 60, 2000, pos);
     }
 
     @Override

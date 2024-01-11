@@ -10,7 +10,7 @@ import src.util.Direction;
  * this class
  */
 public abstract class Enemy {
-    private static final double EPSILON = 1e-2;
+    private static final double EPSILON = 0.013;
 
     /**
      * Speed of this enemy, in cells per second
@@ -73,8 +73,13 @@ public abstract class Enemy {
      * @return <code>true</code> if this enemy changed cell since it last turned
      */
     public boolean changedCell() {
-        Coordinate nearest = new Coordinate(Math.round(pos.x), Math.round(pos.y));
-        return pos.distance(nearest) < EPSILON;
+        double dx = Math.abs(Math.round(pos.x) - pos.x);
+        double dy = Math.abs(Math.round(pos.y) - pos.y);
+        switch (direction) {
+            case UP: case DOWN:    return dy < EPSILON;
+            case LEFT: case RIGHT: return dx < EPSILON;
+            default: return false;
+        }
     }
 
     /**

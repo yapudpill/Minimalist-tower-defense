@@ -13,7 +13,7 @@ public class SniperTower extends Tower {
      * <code>cooldown = 1700</code>.
      */
     public SniperTower(Coordinate pos) {
-        super(1, 7, 50, 1700, pos);
+        super(1, 5, 50, 1700, pos);
     }
 
     @Override
