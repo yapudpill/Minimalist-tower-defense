@@ -1,4 +1,4 @@
-package src.util;
+package util;
 
 /**
  * The possible difficulty levels proposed for a game.

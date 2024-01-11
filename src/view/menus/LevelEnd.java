@@ -1,12 +1,12 @@
-package src.view.menus;
+package view.menus;
 
 import java.awt.GridLayout;
 
 import javax.swing.JLabel;
 
-import src.controller.MainControl;
-import src.model.GameStats;
-import src.view.Palette;
+import controller.MainControl;
+import model.GameStats;
+import view.Palette;
 
 public class LevelEnd extends EndMenu {
     private final GameStats stats;

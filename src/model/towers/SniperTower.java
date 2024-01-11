@@ -1,9 +1,9 @@
-package src.model.towers;
+package model.towers;
 
 import java.util.ArrayList;
 
-import src.model.enemies.Enemy;
-import src.util.Coordinate;
+import model.enemies.Enemy;
+import util.Coordinate;
 
 public class SniperTower extends Tower {
 

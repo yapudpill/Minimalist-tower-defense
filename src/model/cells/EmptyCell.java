@@ -1,4 +1,4 @@
-package src.model.cells;
+package model.cells;
 
 /**
  * Empty implementation of <code>Cell</code> that represents an empty cell.

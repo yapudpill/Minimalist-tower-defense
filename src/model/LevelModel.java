@@ -1,19 +1,19 @@
-package src.model;
+package model;
 
-import static src.util.Status.VICTORY;
+import static util.Status.VICTORY;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
-import src.model.enemies.BasicEnemy;
-import src.model.enemies.Enemy;
-import src.model.enemies.FastEnemy;
-import src.model.enemies.TankEnemy;
-import src.util.Coordinate;
-import src.util.Direction;
-import src.util.TriFunction;
+import model.enemies.BasicEnemy;
+import model.enemies.Enemy;
+import model.enemies.FastEnemy;
+import model.enemies.TankEnemy;
+import util.Coordinate;
+import util.Direction;
+import util.TriFunction;
 
 public class LevelModel extends GameModel {
 

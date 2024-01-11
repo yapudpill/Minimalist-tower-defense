@@ -1,8 +1,8 @@
-package src.model.towers;
+package model.towers;
 
-import src.model.enemies.Enemy;
-import src.util.Coordinate;
-import src.util.Direction;
+import model.enemies.Enemy;
+import util.Coordinate;
+import util.Direction;
 
 public class Bullet {
     public final Coordinate pos;

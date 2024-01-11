@@ -1,4 +1,4 @@
-package src.util;
+package util;
 
 /**
  * The directions that a <code>pathCell</code> can hold.

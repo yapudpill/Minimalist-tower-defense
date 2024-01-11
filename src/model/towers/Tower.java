@@ -1,10 +1,10 @@
-package src.model.towers;
+package model.towers;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import src.model.enemies.Enemy;
-import src.util.Coordinate;
+import model.enemies.Enemy;
+import util.Coordinate;
 
 /**
  * An abstract representation of a tower. Other types of enemies must extend

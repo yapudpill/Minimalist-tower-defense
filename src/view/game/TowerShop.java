@@ -1,4 +1,4 @@
-package src.view.game;
+package view.game;
 
 import java.awt.FlowLayout;
 import java.util.function.Function;
@@ -7,15 +7,15 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import src.controller.GameControl;
-import src.model.towers.BasicTower;
-import src.model.towers.CanonTower;
-import src.model.towers.SniperTower;
-import src.model.towers.Tower;
-import src.util.Coordinate;
-import src.view.Palette;
-import src.view.WrapLayout;
-import src.view.game.TowerToggleButton.TowerButtonModel;
+import controller.GameControl;
+import model.towers.BasicTower;
+import model.towers.CanonTower;
+import model.towers.SniperTower;
+import model.towers.Tower;
+import util.Coordinate;
+import view.Palette;
+import view.WrapLayout;
+import view.game.TowerToggleButton.TowerButtonModel;
 
 /**
  * A <code>JPanel</code> that contains the tower selection buttons.

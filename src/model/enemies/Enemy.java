@@ -1,9 +1,9 @@
-package src.model.enemies;
+package model.enemies;
 
-import static src.util.Direction.END_OF_PATH;
+import static util.Direction.END_OF_PATH;
 
-import src.util.Coordinate;
-import src.util.Direction;
+import util.Coordinate;
+import util.Direction;
 
 /**
  * An abstract representation of an enemy. Other types of enemies must extend

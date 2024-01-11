@@ -1,4 +1,4 @@
-package src.view.menus;
+package view.menus;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -10,9 +10,9 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import src.controller.MainControl;
-import src.model.GlobalModel;
-import src.view.Palette;
+import controller.MainControl;
+import model.GlobalModel;
+import view.Palette;
 
 public class LevelMenu extends JPanel {
 
@@ -36,7 +36,7 @@ public class LevelMenu extends JPanel {
         constraints.gridwidth = 1;
 
         // Level buttons
-        InputStream in = MarathonMenu.class.getResourceAsStream("/src/resources/level_index");
+        InputStream in = MarathonMenu.class.getResourceAsStream("/resources/level_index");
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         String[] maps = reader.lines().toArray(String[]::new);
 

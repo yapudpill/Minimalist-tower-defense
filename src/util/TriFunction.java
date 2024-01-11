@@ -1,4 +1,4 @@
-package src.util;
+package util;
 
 @FunctionalInterface
 public interface TriFunction<T, U, V, R> {

@@ -1,16 +1,16 @@
-package src.controller;
+package controller;
 
-import static src.util.Status.EXIT;
-import static src.util.Status.PLAYING;
+import static util.Status.EXIT;
+import static util.Status.PLAYING;
 
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.function.Function;
 
-import src.model.GameModel;
-import src.model.towers.Tower;
-import src.util.Coordinate;
-import src.view.game.GameView;
+import model.GameModel;
+import model.towers.Tower;
+import util.Coordinate;
+import view.game.GameView;
 
 public abstract class GameControl {
 

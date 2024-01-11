@@ -2,7 +2,7 @@
  * Code by Rob Camick found here https://tips4java.wordpress.com/2008/11/06/wrap-layout/
  */
 
-package src.view;
+package view;
 
 import java.awt.*;
 import javax.swing.JScrollPane;

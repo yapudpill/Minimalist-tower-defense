@@ -1,12 +1,12 @@
-package src.view.game;
+package view.game;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
-import src.model.cells.PathCell;
-import src.view.Palette;
+import model.cells.PathCell;
+import view.Palette;
 
 /**
  * A <code>JPanel</code> that displays a path cell.

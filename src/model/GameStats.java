@@ -1,13 +1,13 @@
-package src.model;
+package model;
 
-import src.model.enemies.BasicEnemy;
-import src.model.enemies.Enemy;
-import src.model.enemies.FastEnemy;
-import src.model.enemies.TankEnemy;
-import src.model.towers.BasicTower;
-import src.model.towers.CanonTower;
-import src.model.towers.SniperTower;
-import src.model.towers.Tower;
+import model.enemies.BasicEnemy;
+import model.enemies.Enemy;
+import model.enemies.FastEnemy;
+import model.enemies.TankEnemy;
+import model.towers.BasicTower;
+import model.towers.CanonTower;
+import model.towers.SniperTower;
+import model.towers.Tower;
 
 public class GameStats {
     public static int nextGameNo = 1;

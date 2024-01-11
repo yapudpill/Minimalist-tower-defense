@@ -1,7 +1,7 @@
-package src.model.enemies;
+package model.enemies;
 
-import src.util.Coordinate;
-import src.util.Direction;
+import util.Coordinate;
+import util.Direction;
 
 public class BasicEnemy extends Enemy {
 

@@ -1,7 +1,7 @@
-package src.controller;
+package controller;
 
-import src.model.MarathonModel;
-import src.util.Difficulty;
+import model.MarathonModel;
+import util.Difficulty;
 
 /**
  * Controller for a marathon type game. Receives any inputs concerning the game

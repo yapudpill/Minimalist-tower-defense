@@ -1,4 +1,4 @@
-package src.view.game;
+package view.game;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -6,7 +6,7 @@ import java.util.function.IntSupplier;
 
 import javax.swing.JLabel;
 
-import src.view.Palette;
+import view.Palette;
 
 /**
  * A modified type of <code>JLabel</code> with a background color that

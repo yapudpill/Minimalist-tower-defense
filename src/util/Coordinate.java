@@ -1,4 +1,4 @@
-package src.util;
+package util;
 
 /**
  * A minimalist cartesian coordinate system with <code>double</code> coordinates.

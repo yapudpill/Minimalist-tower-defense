@@ -1,4 +1,4 @@
-package src.view.menus;
+package view.menus;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -10,9 +10,9 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import src.controller.MainControl;
-import src.model.GameStats;
-import src.view.Palette;
+import controller.MainControl;
+import model.GameStats;
+import view.Palette;
 
 public class ScoreMenu extends JPanel {
     private static final String EASY_PANEL = "easy";

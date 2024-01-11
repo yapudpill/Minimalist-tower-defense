@@ -1,4 +1,4 @@
-package src.view.menus;
+package view.menus;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -6,9 +6,9 @@ import java.awt.GridBagLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import src.controller.MainControl;
-import src.model.GameStats;
-import src.view.Palette;
+import controller.MainControl;
+import model.GameStats;
+import view.Palette;
 
 public abstract class EndMenu extends JPanel {
     JPanel header;

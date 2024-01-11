@@ -1,9 +1,9 @@
-package src.model.cells;
+package model.cells;
 
 import java.util.ArrayList;
 
-import src.model.enemies.Enemy;
-import src.model.towers.Tower;
+import model.enemies.Enemy;
+import model.towers.Tower;
 
 /**
  * Represents a cell where a tower can be placed and manages the shooting

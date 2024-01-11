@@ -1,16 +1,16 @@
-package src.model;
+package model;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-import src.model.enemies.BasicEnemy;
-import src.model.enemies.Enemy;
-import src.model.enemies.FastEnemy;
-import src.model.enemies.TankEnemy;
-import src.util.Coordinate;
-import src.util.Difficulty;
-import src.util.Direction;
-import src.util.TriFunction;
+import model.enemies.BasicEnemy;
+import model.enemies.Enemy;
+import model.enemies.FastEnemy;
+import model.enemies.TankEnemy;
+import util.Coordinate;
+import util.Difficulty;
+import util.Direction;
+import util.TriFunction;
 
 /**
  * The model of a marathon game. It contains all the information about a game

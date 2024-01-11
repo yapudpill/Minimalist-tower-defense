@@ -1,17 +1,17 @@
-package src.model;
+package model;
 
-import static src.util.Direction.END_OF_PATH;
-import static src.util.Status.DEFEAT;
-import static src.util.Status.PLAYING;
+import static util.Direction.END_OF_PATH;
+import static util.Status.DEFEAT;
+import static util.Status.PLAYING;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import src.model.cells.TowerCell;
-import src.model.enemies.Enemy;
-import src.model.towers.Tower;
-import src.util.Status;
+import model.cells.TowerCell;
+import model.enemies.Enemy;
+import model.towers.Tower;
+import util.Status;
 
 public abstract class GameModel {
 
@@ -25,13 +25,14 @@ public abstract class GameModel {
     boolean spawning;
 
     public GameModel(String mapName) {
-        InputStream in = getClass().getResourceAsStream("/src/resources/" + mapName);
+        InputStream in = getClass().getResourceAsStream("/resources/" + mapName);
         reader = new BufferedReader(new InputStreamReader(in));
         grid = new Grid(reader);
         stats = new GameStats(mapName);
         nextWaveTime = 3000; // Wait 3 seconds before the first wave
         life = 3;
         gold = 120;
+        stats.earnedGold += gold;
         spawning = false;
         status = PLAYING;
     }

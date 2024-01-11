@@ -1,10 +1,10 @@
-package src.view.menus;
+package view.menus;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JRadioButton;
 
-import src.util.Difficulty;
-import src.view.Palette;
+import util.Difficulty;
+import view.Palette;
 
 /**
  * A modified type of <code>JRadioButton</code> that encapsulates a difficulty

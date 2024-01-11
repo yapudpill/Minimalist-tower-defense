@@ -1,4 +1,4 @@
-package src.view.game;
+package view.game;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -8,22 +8,22 @@ import java.awt.GridLayout;
 
 import javax.swing.JPanel;
 
-import src.controller.GameControl;
-import src.model.Grid;
-import src.model.cells.Cell;
-import src.model.cells.PathCell;
-import src.model.cells.TowerCell;
-import src.model.enemies.BasicEnemy;
-import src.model.enemies.Enemy;
-import src.model.enemies.FastEnemy;
-import src.model.enemies.TankEnemy;
-import src.model.towers.BasicTower;
-import src.model.towers.Bullet;
-import src.model.towers.CanonTower;
-import src.model.towers.SniperTower;
-import src.model.towers.Tower;
-import src.util.Direction;
-import src.view.Palette;
+import controller.GameControl;
+import model.Grid;
+import model.cells.Cell;
+import model.cells.PathCell;
+import model.cells.TowerCell;
+import model.enemies.BasicEnemy;
+import model.enemies.Enemy;
+import model.enemies.FastEnemy;
+import model.enemies.TankEnemy;
+import model.towers.BasicTower;
+import model.towers.Bullet;
+import model.towers.CanonTower;
+import model.towers.SniperTower;
+import model.towers.Tower;
+import util.Direction;
+import view.Palette;
 
 /**
  * A <code>JPanel</code> that displays the game grid, where the tower are placed

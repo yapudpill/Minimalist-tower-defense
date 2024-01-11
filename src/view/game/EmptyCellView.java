@@ -1,8 +1,8 @@
-package src.view.game;
+package view.game;
 
 import javax.swing.JPanel;
 
-import src.view.Palette;
+import view.Palette;
 
 /**
  * A <code>JPanel</code> that displays an empty cell.

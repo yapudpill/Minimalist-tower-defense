@@ -1,4 +1,4 @@
-package src.view.game;
+package view.game;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -6,11 +6,11 @@ import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import src.controller.GameControl;
-import src.model.GameModel;
-import src.model.LevelModel;
-import src.view.Palette;
-import src.view.WrapLayout;
+import controller.GameControl;
+import model.GameModel;
+import model.LevelModel;
+import view.Palette;
+import view.WrapLayout;
 
 public class GameView extends JPanel {
     public final TowerShop shop;

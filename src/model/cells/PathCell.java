@@ -1,6 +1,6 @@
-package src.model.cells;
+package model.cells;
 
-import src.util.Direction;
+import util.Direction;
 
 /**
  * Represents a cell of a path that enemies follow.

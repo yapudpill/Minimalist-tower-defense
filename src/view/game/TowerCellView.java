@@ -1,4 +1,4 @@
-package src.view.game;
+package view.game;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -8,14 +8,14 @@ import java.awt.event.MouseListener;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-import src.controller.GameControl;
-import src.model.cells.TowerCell;
-import src.model.towers.BasicTower;
-import src.model.towers.CanonTower;
-import src.model.towers.SniperTower;
-import src.model.towers.Tower;
-import src.util.Coordinate;
-import src.view.Palette;
+import controller.GameControl;
+import model.cells.TowerCell;
+import model.towers.BasicTower;
+import model.towers.CanonTower;
+import model.towers.SniperTower;
+import model.towers.Tower;
+import util.Coordinate;
+import view.Palette;
 
 /**
  * A <code>JPanel</code> that displays a tower cell.

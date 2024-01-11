@@ -1,8 +1,8 @@
-package src.view.menus;
+package view.menus;
 
-import static src.util.Difficulty.EASY;
-import static src.util.Difficulty.HARD;
-import static src.util.Difficulty.MEDIUM;
+import static util.Difficulty.EASY;
+import static util.Difficulty.HARD;
+import static util.Difficulty.MEDIUM;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -18,9 +18,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-import src.controller.MainControl;
-import src.view.Palette;
-import src.view.menus.DifficultyRadioButton.DifficultyButtonModel;
+import controller.MainControl;
+import view.Palette;
+import view.menus.DifficultyRadioButton.DifficultyButtonModel;
 
 /**
  * The selection menu to launch a new marathon game. This menu make the user
@@ -91,7 +91,7 @@ public class MarathonMenu extends JPanel {
 
         constraints.gridx = 1;
         constraints.gridwidth = 3;
-        InputStream in = MarathonMenu.class.getResourceAsStream("/src/resources/marathon_index");
+        InputStream in = MarathonMenu.class.getResourceAsStream("/resources/marathon_index");
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         mapBox = new JComboBox<>(reader.lines().toArray(String[]::new));
         mapBox.setFont(Palette.PLAIN_SANS);

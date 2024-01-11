@@ -1,6 +1,6 @@
-package src.controller;
+package controller;
 
-import src.model.LevelModel;
+import model.LevelModel;
 
 public class LevelControl extends GameControl {
 

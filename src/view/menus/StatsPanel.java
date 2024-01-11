@@ -1,4 +1,4 @@
-package src.view.menus;
+package view.menus;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -6,8 +6,8 @@ import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import src.model.GameStats;
-import src.view.Palette;
+import model.GameStats;
+import view.Palette;
 
 public class StatsPanel extends JPanel {
 

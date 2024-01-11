@@ -1,16 +1,16 @@
-package src.view.game;
+package view.game;
 
 import java.util.function.Function;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JToggleButton;
 
-import src.model.towers.BasicTower;
-import src.model.towers.CanonTower;
-import src.model.towers.SniperTower;
-import src.model.towers.Tower;
-import src.util.Coordinate;
-import src.view.Palette;
+import model.towers.BasicTower;
+import model.towers.CanonTower;
+import model.towers.SniperTower;
+import model.towers.Tower;
+import util.Coordinate;
+import view.Palette;
 
 /**
  * A modified type of <code>JToggleButton</code> that encapsulates a tower

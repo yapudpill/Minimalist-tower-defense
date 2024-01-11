@@ -1,10 +1,10 @@
-package src.model;
+package model;
 
-import static src.util.Direction.DOWN;
-import static src.util.Direction.END_OF_PATH;
-import static src.util.Direction.LEFT;
-import static src.util.Direction.RIGHT;
-import static src.util.Direction.UP;
+import static util.Direction.DOWN;
+import static util.Direction.END_OF_PATH;
+import static util.Direction.LEFT;
+import static util.Direction.RIGHT;
+import static util.Direction.UP;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,14 +14,14 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Random;
 
-import src.model.cells.Cell;
-import src.model.cells.EmptyCell;
-import src.model.cells.PathCell;
-import src.model.cells.TowerCell;
-import src.model.enemies.Enemy;
-import src.util.Coordinate;
-import src.util.Direction;
-import src.util.TriFunction;
+import model.cells.Cell;
+import model.cells.EmptyCell;
+import model.cells.PathCell;
+import model.cells.TowerCell;
+import model.enemies.Enemy;
+import util.Coordinate;
+import util.Direction;
+import util.TriFunction;
 
 /**
  * The <code>Grid</code> class stores everything about the cells, the towers

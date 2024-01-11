@@ -1,19 +1,19 @@
-package src.controller;
+package controller;
 
-import static src.util.Status.EXIT;
-import static src.util.Status.VICTORY;
+import static util.Status.EXIT;
+import static util.Status.VICTORY;
 
-import src.model.GameStats;
-import src.model.GlobalModel;
-import src.util.Difficulty;
-import src.util.Status;
-import src.view.MainFrame;
-import src.view.menus.LevelEnd;
-import src.view.menus.LevelMenu;
-import src.view.menus.MarathonEnd;
-import src.view.menus.MarathonMenu;
-import src.view.menus.ScoreMenu;
-import src.view.menus.StartMenu;
+import model.GameStats;
+import model.GlobalModel;
+import util.Difficulty;
+import util.Status;
+import view.MainFrame;
+import view.menus.LevelEnd;
+import view.menus.LevelMenu;
+import view.menus.MarathonEnd;
+import view.menus.MarathonMenu;
+import view.menus.ScoreMenu;
+import view.menus.StartMenu;
 
 /**
  * Main controller of the project. This controller is in change of creating the

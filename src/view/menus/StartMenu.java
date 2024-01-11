@@ -1,4 +1,4 @@
-package src.view.menus;
+package view.menus;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -7,8 +7,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import src.controller.MainControl;
-import src.view.Palette;
+import controller.MainControl;
+import view.Palette;
 
 /**
  * The main menu of this project. Here the user can chose to go to any other
