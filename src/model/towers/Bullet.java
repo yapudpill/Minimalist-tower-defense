@@ -20,7 +20,6 @@ public class Bullet {
     }
 
     /**
-     * TODO: better description
      * return = 0 : keep on grid
      * return < 0 : remove without reward
      * return > 0 : remove with reward
