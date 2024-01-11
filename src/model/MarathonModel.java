@@ -41,9 +41,9 @@ public class MarathonModel extends GameModel {
 
         spawnRef = new int[2];
         switch (diff) {
-            case EASY:   waveInterval = 12000; spawnRef[0] = 50; spawnRef[1] = 75; break;
-            case MEDIUM: waveInterval = 10000; spawnRef[0] = 45; spawnRef[1] = 75; break;
-            default:     waveInterval = 8000;  spawnRef[0] = 35; spawnRef[1] = 60; break;
+            case EASY:   waveInterval = 11000; spawnRef[0] = 50; spawnRef[1] = 75; break;
+            case MEDIUM: waveInterval = 9500; spawnRef[0] = 45; spawnRef[1] = 75; break;
+            default:     waveInterval = 7500;  spawnRef[0] = 35; spawnRef[1] = 60; break;
         }
     }
 

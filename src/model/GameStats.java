@@ -22,6 +22,11 @@ public class GameStats {
         nextGameNo++;
     }
 
+    /**
+     * Adds 1 to the counter of the tower type.
+     *
+     * @param tower the tower to count
+     */
     public void towerPlaced(Tower tower) {
         if (tower instanceof BasicTower) {
             basicPlaced++;
@@ -32,6 +37,11 @@ public class GameStats {
         }
     }
 
+    /**
+     * Adds 1 to the counter of the enemy type.
+     *
+     * @param enemy the enemy to count
+     */
     public void enemyDied(Enemy enemy) {
         if (enemy instanceof BasicEnemy) {
             basicKilled++;
@@ -42,6 +52,9 @@ public class GameStats {
         }
     }
 
+    /**
+     * @return the number of wave since the beginning of the game
+     */
     public int getWaveCount() {
         return waveCount;
     }

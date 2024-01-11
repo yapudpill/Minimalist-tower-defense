@@ -2,7 +2,6 @@ package model.towers;
 
 import model.enemies.Enemy;
 import util.Coordinate;
-import util.Direction;
 
 public class Bullet {
     public final Coordinate pos;
@@ -20,17 +19,20 @@ public class Bullet {
     }
 
     /**
+     * Updates the position of this bullets, verifying if the target have been
+     * touched or if it is already deag.
+     *
      * return = 0 : keep on grid
      * return < 0 : remove without reward
      * return > 0 : remove with reward
      *
      * @param frameRate
-     * @return
+     * @return whether or not this bullet should be kept on the grid
      */
     public int update(int frameRate) {
         double step = frameRate * speed / 1000;
 
-        if (hasNoTarget() || range - step <= 0) {
+        if (!target.isOnGrid() || range - step <= 0) {
             return -1;
         }
 
@@ -49,9 +51,5 @@ public class Bullet {
         pos.translate(dx, dy);
         range -= step;
         return 0;
-    }
-
-    public boolean hasNoTarget() {
-        return !target.isAlive() || target.getDirection() == Direction.END_OF_PATH;
     }
 }

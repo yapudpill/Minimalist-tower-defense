@@ -130,6 +130,11 @@ public class Grid {
         return spawnPoints.get(rnd.nextInt(spawnPoints.size()));
     }
 
+    /**
+     * @param cds the specified coordinate
+     * @return the distance between the specified coordinate and the end of the
+     *         path following the path
+     */
     private int distanceToEnd(Coordinate cds) {
         int dist = 0;
         int x = (int) cds.x;
@@ -193,6 +198,12 @@ public class Grid {
         return getCell((int) cds.x, (int) cds.y);
     }
 
+    /**
+     * @param x int x-axis coordinate
+     * @param y the y-axis coordinate
+     * @return the direction of the cell located at the specified coordinates if
+     *         it is a <code>PathCell</code>, <code>null</code> otherwise
+     */
     public Direction getDirection(int x, int y) {
         Cell c = getCell(x, y);
         if (c instanceof PathCell) {
