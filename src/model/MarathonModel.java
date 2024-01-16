@@ -94,7 +94,7 @@ public class MarathonModel extends GameModel {
             }
             grid.spawnEnemies(constructors);
 
-            if (stats.waveCount > 20 && waveInterval >= 300) {
+            if (stats.waveCount > 20 && waveInterval >= 1000) {
                 waveInterval -= 1000;
             }
         }
