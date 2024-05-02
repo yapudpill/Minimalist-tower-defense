@@ -28,19 +28,22 @@ public class StartMenu extends JPanel {
 
         // Global constraints
         constraints.fill = GridBagConstraints.BOTH;
-        constraints.weightx = 1;
-        constraints.weighty = 1;
 
         // First column
         constraints.gridx = 0;
 
         constraints.gridy = 0;
+        constraints.weightx = 1;
+        constraints.weighty = 1;
         constraints.gridwidth = 2;
         JLabel title = new JLabel("MINIMALIST TOWER DEFENSE");
         title.setHorizontalAlignment(JLabel.CENTER);
         title.setFont(Palette.PLAIN_SANS_BIG);
         add(title, constraints);
         constraints.gridwidth = 1;
+
+        constraints.weightx = 0.5;
+        constraints.weighty = 0.5;
 
         constraints.gridy = 1;
         JButton levels = new JButton("Levels");

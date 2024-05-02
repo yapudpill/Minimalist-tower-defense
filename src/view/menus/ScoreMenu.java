@@ -1,7 +1,6 @@
 package view.menus;
 
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
@@ -9,49 +8,29 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 
 import controller.MainControl;
 import model.GameStats;
 import view.Palette;
 
 public class ScoreMenu extends JPanel {
-    private static final String EASY_PANEL = "easy";
-    private static final String MEDIUM_PANEL = "medium";
-    private static final String HARD_PANEL = "hard";
-    private static final String STATS_PANEL = "stats";
-
-    private final CardLayout layout;
-    private final JPanel cards;
+    private final JTabbedPane tabs;
 
     public ScoreMenu(MainControl control, ArrayList<GameStats>[] stats) {
         setLayout(new BorderLayout());
 
-        layout = new CardLayout();
-        cards = new JPanel(layout);
-        cards.add(makeMenu(stats[0]), EASY_PANEL);
-        cards.add(makeMenu(stats[1]), MEDIUM_PANEL);
-        cards.add(makeMenu(stats[2]), HARD_PANEL);
-        add(cards, BorderLayout.CENTER);
-
-
-        JButton easy = new JButton("Easy");
-        easy.setFont(Palette.PLAIN_SANS);
-        easy.addActionListener(e -> layout.show(cards, EASY_PANEL));
-
-        JButton medium = new JButton("Medium");
-        medium.setFont(Palette.PLAIN_SANS);
-        medium.addActionListener(e -> layout.show(cards, MEDIUM_PANEL));
-
-        JButton hard = new JButton("Hard");
-        hard.setFont(Palette.PLAIN_SANS);
-        hard.addActionListener(e -> layout.show(cards, HARD_PANEL));
-
-        JPanel tabButtons = new JPanel();
-        tabButtons.add(easy);
-        tabButtons.add(medium);
-        tabButtons.add(hard);
-        add(tabButtons, BorderLayout.NORTH);
-
+        tabs = new JTabbedPane();
+        tabs.addTab("Easy", makeMenu(stats[0]));
+        tabs.addTab("Medium", makeMenu(stats[1]));
+        tabs.addTab("Hard", makeMenu(stats[2]));
+        tabs.addChangeListener(e -> {
+            if (tabs.getTabCount() == 4 && tabs.getSelectedIndex() != 3) {
+                tabs.remove(3);
+            }
+        });
+        tabs.setFont(Palette.PLAIN_SANS);
+        add(tabs, BorderLayout.CENTER);
 
         JButton back = new JButton("Back");
         back.setFont(Palette.PLAIN_SANS);
@@ -87,8 +66,8 @@ public class ScoreMenu extends JPanel {
             JButton detail = new JButton("Detail");
             detail.setFont(Palette.PLAIN_SANS);
             detail.addActionListener(e -> {
-                cards.add(new StatsPanel(gs), STATS_PANEL);
-                layout.show(cards, STATS_PANEL);
+                tabs.addTab("Details", new StatsPanel(gs));
+                tabs.setSelectedIndex(3);
             });
             menu.add(detail, constraints);
         }
